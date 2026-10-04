@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Schatgravers - Koningen & Coördinaten Spel</title>
+  <style>
+    :root {
+      --primary: #4a6fa5;
+      --secondary: #ff9f1c;
+      --success: #2ec4b6;
+      --bg: #f4f7f6;
+      --card-bg: #ffffff;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+
+    /* Navigatie tussen schermen */
+    nav {
+      background-color: var(--primary);
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav button {
+      background: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      color: var(--primary);
+      transition: all 0.2s ease;
+    }
+
+    nav button.active {
+      background-color: var(--secondary);
+      color: white;
+    }
+
+    /* Schermcontainers */
+    .screen {
+      display: none;
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 25px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    h1, h2 {
+      color: var(--primary);
+    }
+
+    /* Scherm 1: Inloggen & Teams */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    input, select {
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button.btn-submit {
+      padding: 12px;
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .team-list {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .player-card {
+      background: #eef4fb;
+      padding: 10px 15px;
+      border-radius: 8px;
+      border-left: 4px solid var(--primary);
+    }
+
+    /* Scherm 2: YouTube Video's */
+    .video-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .video-container iframe {
+      width: 100%;
+      max-width: 720px;
+      height: 405px;
+      border-radius: 10px;
+      border: none;
+    }
+
+    /* Scherm 3: Bijbelverhaal */
+    .story-box {
+      line-height: 1.8;
+      font-size: 1.1em;
+      background: #fff8eb;
+      padding: 25px;
+      border-radius: 10px;
+      border-left: 6px solid var(--secondary);
+    }
+
+    .story-box h3 {
+      margin-top: 20px;
+      color: #d97706;
+    }
+
+    /* Scherm 4: Bible embed & Koningen Match Spel */
+    .iframe-box {
+      width: 100%;
+      height: 400px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 25px;
+    }
+
+    .matching-game {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .crowns-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      background: #f0f4f8;
+      padding: 15px;
+      border-radius: 10px;
+      min-height: 120px;
+    }
+
+    .draggable-crown {
+      width: 100px;
+      cursor: grab;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      padding: 5px;
+      background: white;
+      transition: transform 0.2s;
+    }
+
+    .draggable-crown:hover {
+      transform: scale(1.05);
+    }
+
+    .facts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+    }
+
+    .fact-card {
+      border: 2px dashed var(--primary);
+      padding: 15px;
+      border-radius: 10px;
+      background: #fafafa;
+      text-align: center;
+      position: relative;
+    }
+
+    .fact-card.correct {
+      border: 2px solid var(--success);
+      background: #e6f9f7;
+    }
+
+    .drop-zone {
+      min-height: 80px;
+      border: 2px dashed #bbb;
+      margin-top: 10px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+
+    .coordinate-badge {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 5px 12px;
+      background: var(--secondary);
+      color: white;
+      font-weight: bold;
+      border-radius: 15px;
+    }
+
+    /* Invoerveld Oplossing */
+    .solution-box {
+      margin-top: 40px;
+      background: #eef2f7;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .solution-input {
+      width: 80%;
+      max-width: 500px;
+      margin-bottom: 10px;
+    }
+
+    .reward-message {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      background: var(--success);
+      color: white;
+      font-size: 1.3em;
+      font-weight: bold;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigatiemenu -->
+  <nav>
+    <button class="nav-btn active" onclick="showScreen(1)">Scherm 1: Inloggen</button>
+    <button class="nav-btn" onclick="showScreen(2)">Scherm 2: Video's</button>
+    <button class="nav-btn" onclick="showScreen(3)">Scherm 3: Bijbelverhaal</button>
+    <button class="nav-btn" onclick="showScreen(4)">Scherm 4: Koningen & Raadsel</button>
+  </nav>
+
+  <!-- SCHERM 1: INLOGGEN EN TEAMS -->
+  <div id="screen1" class="screen active">
+    <h2>Welkom bij Schatgravers!</h2>
+    <p>Vul je voornaam in om in te loggen en je aan te sluiten bij de klas.</p>
+    
+    <form id="loginForm" class="login-form">
+      <input type="text" id="firstName" placeholder="Je Voornaam" required />
+      <select id="teamSelect" required>
+        <option value="">Kies je Team</option>
+        <option value="Team Rood">Team Rood</option>
+        <option value="Team Blauw">Team Blauw</option>
+        <option value="Team Groen">Team Groen</option>
+        <option value="Team Geel">Team Geel</option>
+      </select>
+      <button type="submit" class="btn-submit">Aanmelden / Inloggen</button>
+    </form>
+
+    <h3>Aangemelde Kinderen & Teams</h3>
+    <div id="teamList" class="team-list">
+      <!-- Live spelers uit Firebase -->
+    </div>
+  </div>
+
+  <!-- SCHERM 2: YOUTUBE VIDEO'S -->
+  <div id="screen2" class="screen">
+    <h2>Bekijk de Video's</h2>
+    <div class="video-container">
+      <iframe src="https://www.youtube.com/embed/KVCt79L_BnA" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/mTc186YgWfo" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/M_v3FKIiSKU" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- SCHERM 3: BIJBELVERHAAL -->
+  <div id="screen3" class="screen">
+    <h2>Bijbelverhaal: 2 Samuël 7:8, 11c-20</h2>
+    <div class="story-box">
+      <p>Daarna moest Natan tegen David zeggen: ‘Dit zegt de machtige Heer: ‘Ik heb je weggehaald bij de schapen, omdat ik wil dat jij mijn volk leidt.’</p>
+      
+      <h3>Davids familie zal altijd regeren</h3>
+      <p>Ik beloof dat er in jouw familie altijd iemand koning zal zijn. Ooit zal jouw leven voorbij zijn. En als jij gestorven bent, zal ik je zoon koning maken. Ik zal ervoor zorgen dat hij lang koning blijft. En hij zal voor mij een tempel bouwen.<br>
+      Ik zal voor hem een vader zijn, en hij zal voor mij een zoon zijn. Als een zoon iets verkeerds doet, dan straft zijn vader hem. Dus als jouw zoon iets verkeerds doet, zal ik hem straffen. Maar ik zal hem nooit verlaten. Saul heb ik wel verlaten, omdat ik wilde dat jij koning werd in zijn plaats. Maar jouw familie zal altijd machtig zijn. Want in jouw familie zal altijd iemand koning zijn.’</p>
+      
+      <h3>David is verbaasd dat hij gekozen is</h3>
+      <p>Natan vertelde David alles wat hij van God gehoord had. Daarna ging David de tent van de Heer binnen om te bidden. Hij zei: ‘Heer, mijn God, waarom hebt u mij uitgekozen om koning te zijn? Ik ben helemaal niet belangrijk, en mijn familie is dat ook niet. En u hebt zelfs nog meer beloofd, Heer, mijn God. U hebt gezegd dat er altijd iemand uit mijn familie koning zal zijn. En wat u zegt, staat voor altijd vast.<br>
+      Wat kan ik verder nog tegen u zeggen? U kent mij, Heer, mijn God. Ik ben uw dienaar.’</p>
+    </div>
+  </div>
+
+  <!-- SCHERM 4: BIJBEL EMBED, WEETJES EN SPEL -->
+  <div id="screen4" class="screen">
+    <h2>Lees het evangelie & Los de Koningspuzzel op</h2>
+    
+    <!-- Embed Bijbelsite -->
+    <iframe class="iframe-box" src="https://www.bible.com/nl/bible/75/JHN.1.HTB"></iframe>
+
+    <h3>Sleep de juiste Kroon naar het juiste Koningsweetje!</h3>
+    <p>Elk goed antwoord levert een coördinaat op van het schatgravers-raster.</p>
+
+    <div class="matching-game">
+      <!-- Drag/Drop Kronen Container -->
+      <div id="crownsContainer" class="crowns-container">
+        <img src="hizkia.png" id="crown-hizkia" class="draggable-crown" draggable="true" data-king="hizkia" alt="Hizkia">
+        <img src="manasse.png" id="crown-manasse" class="draggable-crown" draggable="true" data-king="manasse" alt="Manasse">
+        <img src="asa.png" id="crown-asa" class="draggable-crown" draggable="true" data-king="asa" alt="Asa">
+        <img src="joas.png" id="crown-joas" class="draggable-crown" draggable="true" data-king="joas" alt="Joas">
+        <img src="jotam.png" id="crown-jotam" class="draggable-crown" draggable="true" data-king="jotam" alt="Jotam">
+        <img src="salomo.png" id="crown-salomo" class="draggable-crown" draggable="true" data-king="salomo" alt="Salomo">
+        <img src="josia.png" id="crown-josia" class="draggable-crown" draggable="true" data-king="josia" alt="Josia">
+      </div>
+
+      <!-- Weetjes / Vragen Grid -->
+      <div class="facts-grid">
+        <!-- Hizkia -->
+        <div class="fact-card" data-correct="hizkia" data-coord="Coördinaat: A9 (.tbeh -> hebt)">
+          <p><strong>"Ik leg een brief in de tempel."</strong><br><em>2 Koningen 19:14</em></p>
+          <div class="drop-zone">Sleep hier de kroon</div>
+          <div class="coord-result"></div>
+        </div>
+
+        <!-- Manasse -->
+        <div class="fact-card" data-correct="manasse" data-coord="Coördinaat: D8 (tgez -> zegt)">
+          <p><strong>"Ik ben maar liefst 55 jaar lang koning."</strong><br><em>2 Kronieken 33:1</em></p>
+          <div class="drop-zone">Sleep hier de kroon</div>
+          <div class="coord-result"></div>
+        </div>
+
+        <!-- Asa -->
+        <div class="fact-card" data-correct="asa" data-coord="Coördinaat: C1 (tiu -> uit)">
+          <p><strong>"Ik laat alle godenbeelden uit het land weghalen."</strong><br><em>1 Koningen 15:11-12</em></p>
+          <div class="drop-zone">Sleep hier de kroon</div>
+          <div class="coord-result"></div>
+        </div>
+
+        <!-- Joas -->
+        <div class="fact-card" data-correct="joas" data-coord="Coördinaat: D6 (vers 19 -> vers 19)">
+          <p><strong>"Mijn eigen dienaren doden mij."</strong><br><em>2 Koningen 12:20-22</em></p>
+          <div class="drop-zone">Sleep hier de kroon</div>
+          <div class="coord-result"></div>
+        </div>
+
+        <!-- Jotam -->
+        <div class="fact-card" data-correct="jotam" data-coord="Coördinaat: E4 (nE -> En)">
+          <p><strong>"Ik regeer over het land terwijl mijn vader nog leeft, maar hij is ziek."</strong><br><em>2 Koningen 15:3-5</em></p>
+          <div class="drop-zone">Sleep hier de kroon</div>
+          <div class="coord-result"></div>
+        </div>
+
+        <!-- Salomo -->
+        <div class="fact-card" data-correct="salomo" data-coord="Coördinaat: C5 (eilimaf -> familie)">
+          <p><strong>"Ik bouw in Jeruzalem de tempel voor de Heer."</strong><br><em>1 Koningen 6:1</em></p>
+          <div class="drop-zone">Sleep hier de kroon</div>
+          <div class="coord-result"></div>
+        </div>
+
+        <!-- Josia -->
+        <div class="fact-card" data-correct="josia" data-coord="Coördinaat: H4 (gninok -> koning)">
+          <p><strong>"Ik word koning als ik nog maar acht jaar oud ben."</strong><br><em>2 Koningen 22:1</em></p>
+          <div class="drop-zone">Sleep hier de kroon</div>
+          <div class="coord-result"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Oplossingsveld -->
+    <div class="solution-box">
+      <h3>Vul hier de gevonden en geordende zin in:</h3>
+      <p><em>(Tip: Ontcijfer de omgekeerde woorden op de kroontjes van het coördinatenraster!)</em></p>
+      <input type="text" id="finalSolutionInput" class="solution-input" placeholder="Typ hier de volledige correcte zin...">
+      <br>
+      <button class="btn-submit" onclick="checkSolution()">Controleer Oplossing</button>
+
+      <div id="rewardMessage" class="reward-message">
+        🎉 GEFELICITEERD! Jullie hebben de geheime boodschap ontcijferd en de schat gevonden! 🏆
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Integration -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA6hipcEEJ_e5eLa3Gg346B5un8oO2UfiQ",
+      authDomain: "schatgravers-e72e4.firebaseapp.com",
+      databaseURL: "https://schatgravers-e72e4-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "schatgravers-e72e4",
+      storageBucket: "schatgravers-e72e4.firebasestorage.app",
+      messagingSenderId: "960323466754",
+      appId: "1:960323466754:web:8b974aa09bdd88310b591b",
+      measurementId: "G-1D4TL4905X"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const playersRef = ref(db, 'players');
+
+    // Aanmelden
+    const loginForm = document.getElementById('loginForm');
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('firstName').value;
+      const team = document.getElementById('teamSelect').value;
+
+      if(name && team) {
+        push(playersRef, {
+          name: name,
+          team: team,
+          timestamp: Date.now()
+        });
+        alert(`Welkom ${name}! Je bent ingedeeld bij ${team}.`);
+        document.getElementById('firstName').value = '';
+      }
+    });
+
+    // Realtime uitdatabase halen en op scherm 1 tonen
+    onValue(playersRef, (snapshot) => {
+      const data = snapshot.val();
+      const teamListDiv = document.getElementById('teamList');
+      teamListDiv.innerHTML = '';
+
+      if (data) {
+        Object.values(data).forEach(player => {
+          const card = document.createElement('div');
+          card.className = 'player-card';
+          card.innerHTML = `<strong>${player.name}</strong><br><small>${player.team}</small>`;
+          teamListDiv.appendChild(card);
+        });
+      }
+    });
+  </script>
+
+  <!-- Navigatie & Drag & Drop Logica -->
+  <script>
+    // Schermen wisselen
+    function showScreen(screenNum) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      
+      document.getElementById(`screen${screenNum}`).classList.add('active');
+      document.querySelectorAll('.nav-btn')[screenNum - 1].classList.add('active');
+    }
+
+    // Drag and Drop functionaliteit
+    document.addEventListener("DOMContentLoaded", () => {
+      const crowns = document.querySelectorAll('.draggable-crown');
+      const dropZones = document.querySelectorAll('.drop-zone');
+
+      crowns.forEach(crown => {
+        crown.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', e.target.id);
+        });
+      });
+
+      dropZones.forEach(zone => {
+        zone.addEventListener('dragover', (e) => {
+          e.preventDefault();
+        });
+
+        zone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const crownId = e.dataTransfer.getData('text/plain');
+          const crownEl = document.getElementById(crownId);
+          const factCard = zone.closest('.fact-card');
+
+          const king = crownEl.getAttribute('data-king');
+          const correctKing = factCard.getAttribute('data-correct');
+
+          if (king === correctKing) {
+            zone.innerHTML = '';
+            zone.appendChild(crownEl);
+            factCard.classList.add('correct');
+            
+            // Toon het coördinaat als beloning
+            const coordText = factCard.getAttribute('data-coord');
+            factCard.querySelector('.coord-result').innerHTML = `<span class="coordinate-badge">${coordText}</span>`;
+          } else {
+            alert('Helaas, deze kroon hoort niet bij dit weetje. Probeer opnieuw!');
+          }
+        });
+      });
+    });
+
+    // Controleer de eindoplossing
+    function checkSolution() {
+      const input = document.getElementById('finalSolutionInput').value.trim().toLowerCase();
+      
+      // Verwijder eventuele leestekens voor de vergelijking als gewenst
+      const cleanInput = input.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+
+      if (cleanInput.length > 5) { 
+        document.getElementById('rewardMessage').style.display = 'block';
+      } else {
+        alert('Vul a.u.b. de volledige ontcijferde zin in!');
+      }
+    }
+  </script>
+</body>
+</html>
