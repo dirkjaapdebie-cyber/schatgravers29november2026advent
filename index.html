@@ -89,7 +89,7 @@
       border-radius: 10px;
       border: 1px solid #e2e8f0;
     }
-    input, select {
+    input, select, textarea {
       padding: 12px;
       border: 2px solid #cbd5e1;
       border-radius: 8px;
@@ -279,6 +279,133 @@
       border-radius: 12px;
       border-left: 6px solid var(--secondary);
     }
+    
+    /* SCHERM 4: ANIMATED STICKY NOTES DISCUSSIEVRAGEN */
+    .sticky-board {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin-top: 20px;
+      padding: 10px;
+    }
+    .sticky-note {
+      position: relative;
+      padding: 22px 20px;
+      border-radius: 4px;
+      box-shadow: 5px 8px 18px rgba(0,0,0,0.15);
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 380px;
+    }
+    .sticky-note:nth-child(1) { background: #fef08a; transform: rotate(-2deg); }
+    .sticky-note:nth-child(2) { background: #fbcfe8; transform: rotate(2deg); }
+    .sticky-note:nth-child(3) { background: #bfdbfe; transform: rotate(-1deg); }
+    .sticky-note:nth-child(4) { background: #bbf7d0; transform: rotate(3deg); }
+    .sticky-note:nth-child(5) { background: #fed7aa; transform: rotate(-2deg); }
+    
+    .sticky-note:hover {
+      transform: scale(1.04) rotate(0deg) !important;
+      z-index: 10;
+      box-shadow: 8px 15px 25px rgba(0,0,0,0.2);
+    }
+    .sticky-pin {
+      width: 18px;
+      height: 18px;
+      background: #ef4444;
+      border-radius: 50%;
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    .sticky-question {
+      font-weight: bold;
+      color: #1e293b;
+      font-size: 1.05em;
+      line-height: 1.4;
+      margin-bottom: 15px;
+    }
+    .sticky-input-area {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+    .sticky-textarea {
+      width: 100%;
+      height: 70px;
+      resize: none;
+      font-size: 14px;
+      border: 1px dashed rgba(0,0,0,0.3);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.75);
+      box-sizing: border-box;
+      padding: 8px;
+      font-family: inherit;
+    }
+    .sticky-textarea:focus {
+      background: #ffffff;
+      outline: none;
+      border-color: var(--primary);
+    }
+    .btn-send-sticky {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      align-self: flex-end;
+      transition: background-color 0.2s;
+    }
+    .btn-send-sticky:hover {
+      background: #1e3a8a;
+    }
+    .sticky-livefeed-box {
+      background: rgba(255, 255, 255, 0.65);
+      border-radius: 8px;
+      padding: 10px;
+      max-height: 140px;
+      overflow-y: auto;
+      border: 1px solid rgba(0,0,0,0.08);
+    }
+    .sticky-livefeed-title {
+      font-size: 11px;
+      font-weight: bold;
+      text-transform: uppercase;
+      color: #64748b;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .sticky-feed-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .sticky-feed-item {
+      background: #ffffff;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      word-break: break-word;
+    }
+    .sticky-feed-item strong {
+      color: var(--primary);
+    }
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Scherm 5: Het Spel */
     .iframe-box {
       width: 100%;
       height: 450px;
@@ -450,7 +577,8 @@
     <button class="nav-btn active" onclick="showScreen(1)">1. Inloggen</button>
     <button class="nav-btn" onclick="showScreen(2)">2. Video's & Kwis</button>
     <button class="nav-btn" onclick="showScreen(3)">3. Bijbelverhaal</button>
-    <button class="nav-btn" onclick="showScreen(4)">4. Koningen & Rasterspel</button>
+    <button class="nav-btn" onclick="showScreen(4)">4. Praat & Denk Mee 📝</button>
+    <button class="nav-btn" onclick="showScreen(5)">5. Koningen & Rasterspel</button>
     <!-- RESETKNOP -->
     <button class="nav-btn btn-reset" onclick="resetGame()">🔄 Reset Spel</button>
   </nav>
@@ -507,7 +635,7 @@
       <!-- KROON RACE TRACK -->
       <div class="race-track-section">
         <h3>👑 Koningsrace: Verdien Coördinaten voor de Kaart!</h3>
-        <p>Kies hieronder je team. Bij elk goed antwoord schuift jouw gekleurde kroon 1 stap vooruit én ontgrendel je direct een coördinaat op Scherm 4!</p>
+        <p>Kies hieronder je team. Bij elk goed antwoord schuift jouw gekleurde kroon 1 stap vooruit én ontgrendel je direct een coördinaat op Scherm 5!</p>
         <div style="margin-bottom: 15px;">
           <label style="font-weight:bold;">Speel nu voor: </label>
           <select id="activeQuizTeam" style="padding: 6px 12px; font-size:14px; border-radius:6px;">
@@ -558,7 +686,7 @@
         <div id="quizRewardBox" class="quiz-reward-box" style="display:none;">
           🎉 <h2>GEFELICITEERD! ALLE KWISVRAGEN ZIJN BEANTWOORD!</h2>
           <p>Jullie hebben alle 15 vragen goed en 15 coördinaten op de kaart vrijgespeeld!</p>
-          <p><em>Ga nu naar Scherm 4 om de laatste koningen-vragen op te lossen en de geheime zin te ontcijferen!</em></p>
+          <p><em>Ga nu naar Scherm 5 om de laatste koningen-vragen op te lossen en de geheime zin te ontcijferen!</em></p>
         </div>
       </div>
     </div>
@@ -579,8 +707,96 @@
     </div>
   </div>
 
-  <!-- SCHERM 4: HET SPEL -->
+  <!-- SCHERM 4: PRAAT & DENK MEE (STICKY NOTES DISCUSSIEVRAGEN) -->
   <div id="screen4" class="screen">
+    <h2>Praat & Denk Mee 📝</h2>
+    <p>Beantwoord de vragen op de sticky notes. Je antwoord verschijnt live op het bord!</p>
+
+    <div class="sticky-board">
+      <!-- Vraag 1 -->
+      <div class="sticky-note">
+        <div class="sticky-pin"></div>
+        <div class="sticky-question">
+          1. Waarom zou God beloven dat er voor altijd iemand uit de familie van David koning zal zijn?
+        </div>
+        <div class="sticky-input-area">
+          <textarea id="stickyInput1" class="sticky-textarea" placeholder="Typ jouw antwoord..."></textarea>
+          <button class="btn-send-sticky" onclick="sendStickyAnswer(1)">Plaats 📌</button>
+        </div>
+        <div class="sticky-livefeed-box">
+          <div class="sticky-livefeed-title">📡 Live antwoorden:</div>
+          <div id="stickyFeed1" class="sticky-feed-list"></div>
+        </div>
+      </div>
+
+      <!-- Vraag 2 -->
+      <div class="sticky-note">
+        <div class="sticky-pin"></div>
+        <div class="sticky-question">
+          2. Hoe weet je dat iemand die jou iets belooft, ook echt te vertrouwen is? Hoe weet David dat hij op God kan vertrouwen?
+        </div>
+        <div class="sticky-input-area">
+          <textarea id="stickyInput2" class="sticky-textarea" placeholder="Typ jouw antwoord..."></textarea>
+          <button class="btn-send-sticky" onclick="sendStickyAnswer(2)">Plaats 📌</button>
+        </div>
+        <div class="sticky-livefeed-box">
+          <div class="sticky-livefeed-title">📡 Live antwoorden:</div>
+          <div id="stickyFeed2" class="sticky-feed-list"></div>
+        </div>
+      </div>
+
+      <!-- Vraag 3 -->
+      <div class="sticky-note">
+        <div class="sticky-pin"></div>
+        <div class="sticky-question">
+          3. Waarom zou het voor David zo bijzonder zijn geweest om te horen dat er uit zijn familie altijd iemand koning zal zijn?
+        </div>
+        <div class="sticky-input-area">
+          <textarea id="stickyInput3" class="sticky-textarea" placeholder="Typ jouw antwoord..."></textarea>
+          <button class="btn-send-sticky" onclick="sendStickyAnswer(3)">Plaats 📌</button>
+        </div>
+        <div class="sticky-livefeed-box">
+          <div class="sticky-livefeed-title">📡 Live antwoorden:</div>
+          <div id="stickyFeed3" class="sticky-feed-list"></div>
+        </div>
+      </div>
+
+      <!-- Vraag 4 -->
+      <div class="sticky-note">
+        <div class="sticky-pin"></div>
+        <div class="sticky-question">
+          4. Gelijk nadat de profeet Natan op bezoek is geweest, gaat David naar de tent van de Heer om daar te bidden. Waarom doet hij dat, denk je?
+        </div>
+        <div class="sticky-input-area">
+          <textarea id="stickyInput4" class="sticky-textarea" placeholder="Typ jouw antwoord..."></textarea>
+          <button class="btn-send-sticky" onclick="sendStickyAnswer(4)">Plaats 📌</button>
+        </div>
+        <div class="sticky-livefeed-box">
+          <div class="sticky-livefeed-title">📡 Live antwoorden:</div>
+          <div id="stickyFeed4" class="sticky-feed-list"></div>
+        </div>
+      </div>
+
+      <!-- Vraag 5 -->
+      <div class="sticky-note">
+        <div class="sticky-pin"></div>
+        <div class="sticky-question">
+          5. Zou je kunnen bedenken wat de belofte van God aan David te maken heeft met Kerst?
+        </div>
+        <div class="sticky-input-area">
+          <textarea id="stickyInput5" class="sticky-textarea" placeholder="Typ jouw antwoord..."></textarea>
+          <button class="btn-send-sticky" onclick="sendStickyAnswer(5)">Plaats 📌</button>
+        </div>
+        <div class="sticky-livefeed-box">
+          <div class="sticky-livefeed-title">📡 Live antwoorden:</div>
+          <div id="stickyFeed5" class="sticky-feed-list"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHERM 5: HET SPEL -->
+  <div id="screen5" class="screen">
     <h2>Zoek de Koningen & Ontcijfer de Kaart</h2>
     
     <iframe class="iframe-box" src="https://www.bible.com/nl/bible/75/JHN.1.HTB"></iframe>
@@ -682,7 +898,7 @@
       
       <div id="gridMap" class="grid-container"></div>
       <div id="coordInfoBar" class="coord-info-bar">
-        Speel de Kwis op Scherm 2 en vul de koningen in op Scherm 4 om de kaart compleet te maken...
+        Speel de Kwis op Scherm 2 en vul de koningen in op Scherm 5 om de kaart compleet te maken...
       </div>
     </div>
 
@@ -719,6 +935,7 @@
     const db = getDatabase(app);
     const playersRef = ref(db, 'players');
     const gameStateRef = ref(db, 'gameState');
+    const stickyAnswersRef = ref(db, 'stickyAnswers');
 
     // Aanmelden Formulier
     document.getElementById('loginForm').addEventListener('submit', (e) => {
@@ -729,6 +946,7 @@
 
       if(name && role) {
         window.currentUserRole = role; // Lokaal opslaan
+        window.currentUserName = name;
         
         push(playersRef, { 
           name, 
@@ -771,6 +989,46 @@
       }
     });
 
+    // Realtime Sticky Notes antwoorden versturen
+    window.sendStickyAnswer = function(questionNum) {
+      const inputEl = document.getElementById(`stickyInput${questionNum}`);
+      const text = inputEl.value.trim();
+      if (!text) {
+        alert("Typ eerst een antwoord voordat je het plaatst!");
+        return;
+      }
+      const author = window.currentUserName || "Anoniem";
+      
+      push(stickyAnswersRef, {
+        questionNum: questionNum,
+        author: author,
+        text: text,
+        timestamp: Date.now()
+      });
+
+      inputEl.value = '';
+    };
+
+    // Realtime luisteren naar Sticky Notes antwoorden
+    onValue(stickyAnswersRef, (snapshot) => {
+      const data = snapshot.val();
+      for (let i = 1; i <= 5; i++) {
+        const feedEl = document.getElementById(`stickyFeed${i}`);
+        if (feedEl) feedEl.innerHTML = '';
+      }
+      if (data) {
+        Object.values(data).forEach(item => {
+          const feedEl = document.getElementById(`stickyFeed${item.questionNum}`);
+          if (feedEl) {
+            const feedItem = document.createElement('div');
+            feedItem.className = 'sticky-feed-item';
+            feedItem.innerHTML = `<strong>${item.author}:</strong>${item.text}`;
+            feedEl.prepend(feedItem);
+          }
+        });
+      }
+    });
+
     // Realtime Kwis-status synchronisatie (Luisteren naar Start signaal van de leider)
     onValue(gameStateRef, (snapshot) => {
       const state = snapshot.val();
@@ -787,6 +1045,7 @@
     // Globale functie: Reset Firebase
     window.clearFirebaseData = function() {
       remove(playersRef);
+      remove(stickyAnswersRef);
       set(gameStateRef, { quizStarted: false });
     };
   </script>
@@ -943,9 +1202,10 @@
 
     function showScreen(screenNum) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.nav-btn:not(.btn-reset)').forEach(b => b.classList.remove('active'));
       document.getElementById(`screen${screenNum}`).classList.add('active');
-      document.querySelectorAll('.nav-btn')[screenNum - 1].classList.add('active');
+      const navBtns = document.querySelectorAll('.nav-btn:not(.btn-reset)');
+      if (navBtns[screenNum - 1]) navBtns[screenNum - 1].classList.add('active');
     }
 
     function renderQuizQuestion() {
@@ -1007,7 +1267,7 @@
       });
     }
 
-    // --- RASTER SPEL LOGICA (SCHERM 4) ---
+    // --- RASTER SPEL LOGICA (SCHERM 5) ---
     const gridData = {
       "A1": { reversed: ".njiz", word: "zijn." },
       "A3": { reversed: "dnamei", word: "iemand" },
@@ -1170,7 +1430,7 @@
     }
 
     function resetGame() {
-      const confirmed = confirm("Weet je zeker dat je het spel wilt resetten?\n\nAlle aangemelde teams, kwisvoortgang en ontgrendelde items worden gewist en de kwis wordt weer vergrendeld.");
+      const confirmed = confirm("Weet je zeker dat je het spel wilt resetten?\n\nAlle aangemelde teams, kwisvoortgang, ontgrendelde items en sticky notes antwoorden worden gewist.");
       if (!confirmed) return;
 
       if (typeof window.clearFirebaseData === 'function') {
@@ -1180,6 +1440,11 @@
       document.getElementById('loginForm').reset();
       toggleRoleSelect();
       document.getElementById('finalSolutionInput').value = '';
+
+      for (let i = 1; i <= 5; i++) {
+        const inp = document.getElementById(`stickyInput${i}`);
+        if (inp) inp.value = '';
+      }
 
       currentQuestionIdx = 0;
       teamScores = { rood: 0, blauw: 0, groen: 0, geel: 0 };
@@ -1216,7 +1481,7 @@
 
       unlockedCoords.clear();
       renderGrid();
-      document.getElementById('coordInfoBar').innerHTML = 'Speel de Kwis op Scherm 2 en vul de koningen in op Scherm 4 om de kaart compleet te maken...';
+      document.getElementById('coordInfoBar').innerHTML = 'Speel de Kwis op Scherm 2 en vul de koningen in op Scherm 5 om de kaart compleet te maken...';
 
       document.getElementById('rewardMessage').style.display = 'none';
       showScreen(1);
