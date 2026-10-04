@@ -521,19 +521,11 @@
       color: #64748b;
     }
     .cell-reversed-text {
-      color: #93c5fd;
+      color: #fde047;
       font-weight: bold;
-      font-size: 12px;
+      font-size: 14px;
       font-family: monospace;
-    }
-    .cell-decoded-text {
-      color: #fef08a;
-      font-weight: bold;
-      font-size: 13px;
-      margin-top: 2px;
-      background: rgba(0,0,0,0.4);
-      padding: 2px 6px;
-      border-radius: 4px;
+      margin-top: 4px;
     }
     .coord-info-bar {
       background: #1e293b;
@@ -1243,7 +1235,7 @@
 
         const alertBox = document.getElementById('quizAlert');
         alertBox.style.display = 'block';
-        alertBox.innerHTML = `🎉 <strong>GOED!</strong> Team ${activeTeam.toUpperCase()} maakt 1 stap vooruit én wint coördinaat <strong>${wonCoord}</strong>! (Tekst: <code>${coordData.reversed}</code> ➔ Woord: <strong>"${coordData.word}"</strong>)`;
+        alertBox.innerHTML = `🎉 <strong>GOED!</strong> Team ${activeTeam.toUpperCase()} maakt 1 stap vooruit én wint coördinaat <strong>${wonCoord}</strong>! (Tekst: <code>${coordData.reversed}</code>)`;
 
         setTimeout(() => {
           alertBox.style.display = 'none';
@@ -1393,11 +1385,10 @@
         <span class="cell-coord">${coord}</span>
         <span style="font-size:14px;">⭐</span>
         <span class="cell-reversed-text">${data.reversed}</span>
-        <span class="cell-decoded-text">${data.word}</span>
       `;
 
       const bar = document.getElementById('coordInfoBar');
-      bar.innerHTML = `🎉 <strong>KWIS BELONING!</strong> Coördinaat <strong>${coord}</strong> ontgrendeld! Tekst: <code>${data.reversed}</code> ➔ Woord: <strong>"${data.word}"</strong>`;
+      bar.innerHTML = `🎉 <strong>KWIS BELONING!</strong> Coördinaat <strong>${coord}</strong> ontgrendeld! Tekst: <code>${data.reversed}</code>`;
     }
 
     function unlockGridCellByKing(coord, king, crownEl) {
@@ -1409,12 +1400,11 @@
         <span class="cell-coord">${coord}</span>
         <span style="font-size:16px;">👑</span>
         <span class="cell-reversed-text">${data.reversed}</span>
-        <span class="cell-decoded-text">${data.word}</span>
       `;
       crownEl.parentElement.innerHTML = `<span style="color:var(--success);font-weight:bold;">✅ Geplaatst op ${coord}!</span>`;
 
       const bar = document.getElementById('coordInfoBar');
-      bar.innerHTML = `🎉 <strong>KONING GEPLAATST!</strong> Coördinaat <strong>${coord}</strong> ontgrendeld! Tekst: <code>${data.reversed}</code> ➔ Woord: <strong>"${data.word}"</strong>`;
+      bar.innerHTML = `🎉 <strong>KONING GEPLAATST!</strong> Coördinaat <strong>${coord}</strong> ontgrendeld! Tekst: <code>${data.reversed}</code>`;
     }
 
     function checkSolution() {
