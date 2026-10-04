@@ -122,7 +122,40 @@
       border-left: 4px solid var(--accent);
       box-shadow: 0 2px 4px rgba(0,0,0,0.04);
     }
-    /* Scherm 2: Video's & Kwis */
+    .player-card.leader {
+      background: #fef3c7;
+      border-left-color: var(--secondary);
+    }
+    /* Scherm 2: Video's & Kwis Wachtscherm */
+    .quiz-waiting-box {
+      background: #334155;
+      color: white;
+      padding: 30px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .quiz-waiting-box h3 {
+      color: #fde047;
+      margin-bottom: 10px;
+    }
+    .btn-start-quiz {
+      background-color: var(--success);
+      color: white;
+      font-size: 18px;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s, background-color 0.2s;
+      margin-top: 15px;
+    }
+    .btn-start-quiz:hover {
+      background-color: #059669;
+      transform: scale(1.03);
+    }
     .video-container {
       display: flex;
       flex-direction: column;
@@ -425,10 +458,16 @@
   <!-- SCHERM 1 -->
   <div id="screen1" class="screen active">
     <h2>Welkom bij Schatgravers!</h2>
-    <p>Meld je hieronder aan met je voornaam en kies je team.</p>
+    <p>Meld je hieronder aan. Kies of je meespeelt als speler of als clubleider.</p>
     
     <form id="loginForm" class="login-form">
       <input type="text" id="firstName" placeholder="Je Voornaam" required />
+      
+      <select id="roleSelect" onchange="toggleRoleSelect()" required>
+        <option value="player">Ik ben een Speler</option>
+        <option value="leader">Ik ben de Clubleider 👑</option>
+      </select>
+
       <select id="teamSelect" required>
         <option value="">Kies je Team</option>
         <option value="rood">Team Rood 🔴</option>
@@ -436,9 +475,11 @@
         <option value="groen">Team Groen 🟢</option>
         <option value="geel">Team Geel 🟡</option>
       </select>
+
       <button type="submit" class="btn-submit">Aanmelden</button>
     </form>
-    <h3>Aangemelde Deelnemers</h3>
+    
+    <h3>Aangemelde Deelnemers & Leiding</h3>
     <div id="teamList" class="team-list"></div>
   </div>
 
@@ -452,61 +493,73 @@
       <iframe src="https://www.youtube.com/embed/M_v3FKIiSKU" allowfullscreen></iframe>
     </div>
 
-    <!-- KROON RACE TRACK -->
-    <div class="race-track-section">
-      <h3>👑 Koningsrace: Verdien Coördinaten voor de Kaart!</h3>
-      <p>Kies hieronder je team. Bij elk goed antwoord schuift jouw gekleurde kroon 1 stap vooruit én ontgrendel je direct een coördinaat op Scherm 4!</p>
-      <div style="margin-bottom: 15px;">
-        <label style="font-weight:bold;">Speel nu voor: </label>
-        <select id="activeQuizTeam" style="padding: 6px 12px; font-size:14px; border-radius:6px;">
-          <option value="rood">Team Rood 🔴</option>
-          <option value="blauw">Team Blauw 🔵</option>
-          <option value="groen">Team Groen 🟢</option>
-          <option value="geel">Team Geel 🟡</option>
-        </select>
-      </div>
-
-      <!-- Banen voor 4 teams -->
-      <div class="team-lane">
-        <div class="lane-label" style="color: #ef4444;">Team Rood</div>
-        <div class="track-bar">
-          <div class="runner-crown crown-rood" id="crown-rood" style="left: 0%;">👑</div>
-        </div>
-      </div>
-      <div class="team-lane">
-        <div class="lane-label" style="color: #3b82f6;">Team Blauw</div>
-        <div class="track-bar">
-          <div class="runner-crown crown-blauw" id="crown-blauw" style="left: 0%;">👑</div>
-        </div>
-      </div>
-      <div class="team-lane">
-        <div class="lane-label" style="color: #10b981;">Team Groen</div>
-        <div class="track-bar">
-          <div class="runner-crown crown-groen" id="crown-groen" style="left: 0%;">👑</div>
-        </div>
-      </div>
-      <div class="team-lane">
-        <div class="lane-label" style="color: #f59e0b;">Team Geel</div>
-        <div class="track-bar">
-          <div class="runner-crown crown-geel" id="crown-geel" style="left: 0%;">👑</div>
-        </div>
-      </div>
+    <!-- WACHTSCHERM / STARTKNOP VOOR KWIS -->
+    <div id="quizWaitingBox" class="quiz-waiting-box">
+      <h3 id="waitingText">⏳ Wachten op de clubleider om de kwis te starten...</h3>
+      <p id="waitingSubtext">Zodra de clubleider op start drukt, verschijnt de kwis direct op alle schermen!</p>
+      <button id="startQuizBtn" class="btn-start-quiz" style="display: none;" onclick="triggerStartQuiz()">
+        ▶️ Start de Kwis voor Alle Teams!
+      </button>
     </div>
 
-    <!-- INTERACTIEVE KWIS CONTAINER -->
-    <div class="quiz-box">
-      <div id="quizQuestionContainer">
-        <span class="quiz-badge" id="quizStepBadge">Vraag 1 / 15</span>
-        <h3 id="quizQuestionText" style="margin-top:12px; font-size: 1.2em;">Vraag laden...</h3>
-        <div id="quizOptions" class="quiz-options-grid"></div>
-        <div id="quizAlert" class="quiz-alert"></div>
+    <!-- HOOFD KWIS CONTENT (VERGRENDELD TOT DE LEIDER STARTE) -->
+    <div id="quizMainContent" style="display: none;">
+      <!-- KROON RACE TRACK -->
+      <div class="race-track-section">
+        <h3>👑 Koningsrace: Verdien Coördinaten voor de Kaart!</h3>
+        <p>Kies hieronder je team. Bij elk goed antwoord schuift jouw gekleurde kroon 1 stap vooruit én ontgrendel je direct een coördinaat op Scherm 4!</p>
+        <div style="margin-bottom: 15px;">
+          <label style="font-weight:bold;">Speel nu voor: </label>
+          <select id="activeQuizTeam" style="padding: 6px 12px; font-size:14px; border-radius:6px;">
+            <option value="rood">Team Rood 🔴</option>
+            <option value="blauw">Team Blauw 🔵</option>
+            <option value="groen">Team Groen 🟢</option>
+            <option value="geel">Team Geel 🟡</option>
+          </select>
+        </div>
+
+        <!-- Banen voor 4 teams -->
+        <div class="team-lane">
+          <div class="lane-label" style="color: #ef4444;">Team Rood</div>
+          <div class="track-bar">
+            <div class="runner-crown crown-rood" id="crown-rood" style="left: 0%;">👑</div>
+          </div>
+        </div>
+        <div class="team-lane">
+          <div class="lane-label" style="color: #3b82f6;">Team Blauw</div>
+          <div class="track-bar">
+            <div class="runner-crown crown-blauw" id="crown-blauw" style="left: 0%;">👑</div>
+          </div>
+        </div>
+        <div class="team-lane">
+          <div class="lane-label" style="color: #10b981;">Team Groen</div>
+          <div class="track-bar">
+            <div class="runner-crown crown-groen" id="crown-groen" style="left: 0%;">👑</div>
+          </div>
+        </div>
+        <div class="team-lane">
+          <div class="lane-label" style="color: #f59e0b;">Team Geel</div>
+          <div class="track-bar">
+            <div class="runner-crown crown-geel" id="crown-geel" style="left: 0%;">👑</div>
+          </div>
+        </div>
       </div>
 
-      <!-- BELONINGSBOX BIJ VOLTOOIING -->
-      <div id="quizRewardBox" class="quiz-reward-box" style="display:none;">
-        🎉 <h2>GEFELICITEERD! ALLE KWISVRAGEN ZIJN BEANTWOORD!</h2>
-        <p>Jullie hebben alle 15 vragen goed en 15 coördinaten op de kaart vrijgespeeld!</p>
-        <p><em>Ga nu naar Scherm 4 om de laatste koningen-vragen op te lossen en de geheime zin te ontcijferen!</em></p>
+      <!-- INTERACTIEVE KWIS CONTAINER -->
+      <div class="quiz-box">
+        <div id="quizQuestionContainer">
+          <span class="quiz-badge" id="quizStepBadge">Vraag 1 / 15</span>
+          <h3 id="quizQuestionText" style="margin-top:12px; font-size: 1.2em;">Vraag laden...</h3>
+          <div id="quizOptions" class="quiz-options-grid"></div>
+          <div id="quizAlert" class="quiz-alert"></div>
+        </div>
+
+        <!-- BELONINGSBOX BIJ VOLTOOIING -->
+        <div id="quizRewardBox" class="quiz-reward-box" style="display:none;">
+          🎉 <h2>GEFELICITEERD! ALLE KWISVRAGEN ZIJN BEANTWOORD!</h2>
+          <p>Jullie hebben alle 15 vragen goed en 15 coördinaten op de kaart vrijgespeeld!</p>
+          <p><em>Ga nu naar Scherm 4 om de laatste koningen-vragen op te lossen en de geheime zin te ontcijferen!</em></p>
+        </div>
       </div>
     </div>
   </div>
@@ -646,7 +699,7 @@
   <!-- Firebase Integration -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getDatabase, ref, push, onValue, remove, set } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
     
     const firebaseConfig = {
       apiKey: "AIzaSyA6hipcEEJ_e5eLa3Gg346B5un8oO2UfiQ",
@@ -662,18 +715,39 @@
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const playersRef = ref(db, 'players');
+    const gameStateRef = ref(db, 'gameState');
 
+    // Aanmelden Formulier
     document.getElementById('loginForm').addEventListener('submit', (e) => {
       e.preventDefault();
       const name = document.getElementById('firstName').value;
+      const role = document.getElementById('roleSelect').value;
       const team = document.getElementById('teamSelect').value;
-      if(name && team) {
-        push(playersRef, { name, team, timestamp: Date.now() });
-        alert(`Welkom ${name}! Je bent ingedeeld bij Team ${team.toUpperCase()}.`);
+
+      if(name && role) {
+        window.currentUserRole = role; // Lokaal opslaan
+        
+        push(playersRef, { 
+          name, 
+          role, 
+          team: role === 'leader' ? 'leider' : team, 
+          timestamp: Date.now() 
+        });
+
+        if (role === 'leader') {
+          alert(`Welkom ${name}! Je bent ingelogd als Clubleider 👑. Jij kunt de kwis starten voor alle teams op Scherm 2.`);
+          document.getElementById('startQuizBtn').style.display = 'inline-block';
+        } else {
+          alert(`Welkom ${name}! Je bent ingedeeld bij Team ${team.toUpperCase()}.`);
+          document.getElementById('startQuizBtn').style.display = 'none';
+        }
+        
         document.getElementById('firstName').value = '';
+        updateWaitingScreenUI(window.isQuizStartedByLeader || false);
       }
     });
 
+    // Realtime Deelnemerslijst
     onValue(playersRef, (snapshot) => {
       const data = snapshot.val();
       const teamListDiv = document.getElementById('teamList');
@@ -681,21 +755,82 @@
       if (data) {
         Object.values(data).forEach(player => {
           const card = document.createElement('div');
-          card.className = 'player-card';
-          card.innerHTML = `<strong>${player.name}</strong><br><small style="color:#64748b">Team ${player.team.toUpperCase()}</small>`;
+          const isLeader = player.role === 'leader';
+          card.className = `player-card ${isLeader ? 'leader' : ''}`;
+          
+          if (isLeader) {
+            card.innerHTML = `<strong>👑 ${player.name}</strong><br><small style="color:#d97706; font-weight:bold;">Clubleider</small>`;
+          } else {
+            card.innerHTML = `<strong>${player.name}</strong><br><small style="color:#64748b">Team ${player.team ? player.team.toUpperCase() : ''}</small>`;
+          }
           teamListDiv.appendChild(card);
         });
       }
     });
 
-    // Expose Firebase reset functie aan het globale venster
-    window.clearFirebasePlayers = function() {
+    // Realtime Kwis-status synchronisatie (Luisteren naar Start signaal van de leider)
+    onValue(gameStateRef, (snapshot) => {
+      const state = snapshot.val();
+      const quizStarted = state ? state.quizStarted : false;
+      window.isQuizStartedByLeader = quizStarted;
+      updateWaitingScreenUI(quizStarted);
+    });
+
+    // Globale functie: Clubleider start de kwis voor iedereen
+    window.triggerStartQuiz = function() {
+      set(gameStateRef, { quizStarted: true });
+    };
+
+    // Globale functie: Reset Firebase
+    window.clearFirebaseData = function() {
       remove(playersRef);
+      set(gameStateRef, { quizStarted: false });
     };
   </script>
 
   <!-- Game Logic & Quiz Engine -->
   <script>
+    window.currentUserRole = 'player';
+    window.isQuizStartedByLeader = false;
+
+    function toggleRoleSelect() {
+      const role = document.getElementById('roleSelect').value;
+      const teamSelect = document.getElementById('teamSelect');
+      if (role === 'leader') {
+        teamSelect.style.display = 'none';
+        teamSelect.required = false;
+      } else {
+        teamSelect.style.display = 'block';
+        teamSelect.required = true;
+      }
+    }
+
+    function updateWaitingScreenUI(quizStarted) {
+      const waitingBox = document.getElementById('quizWaitingBox');
+      const mainContent = document.getElementById('quizMainContent');
+      const startBtn = document.getElementById('startQuizBtn');
+      const waitingText = document.getElementById('waitingText');
+      const waitingSubtext = document.getElementById('waitingSubtext');
+
+      if (quizStarted) {
+        waitingBox.style.display = 'none';
+        mainContent.style.display = 'block';
+      } else {
+        waitingBox.style.display = 'block';
+        mainContent.style.display = 'none';
+
+        if (window.currentUserRole === 'leader') {
+          waitingText.textContent = '👑 Welkom Clubleider!';
+          waitingSubtext.textContent = 'Klik hieronder zodra alle teams klaarzitten om de kwis te starten voor iedereen:';
+          startBtn.style.display = 'inline-block';
+        } else {
+          waitingText.textContent = '⏳ Wachten op de clubleider om de kwis te starten...';
+          waitingSubtext.textContent = 'Zodra de clubleider op start drukt, verschijnt de kwis direct op je scherm!';
+          startBtn.style.display = 'none';
+        }
+      }
+    }
+
     // 15 KWISVRAGEN GEKOPPELD AAN DE 15 LOSSE COÖRDINATEN
     const quizQuestions = [
       {
@@ -790,17 +925,9 @@
       }
     ];
 
-    // Teams scores (stappen van 0 tot 15)
-    let teamScores = {
-      rood: 0,
-      blauw: 0,
-      groen: 0,
-      geel: 0
-    };
-
+    let teamScores = { rood: 0, blauw: 0, groen: 0, geel: 0 };
     let currentQuestionIdx = 0;
 
-    // Standaard HTML-structuur voor het herstellen van Koningskaarten
     const defaultKingUnlocks = {
       hizkia: '<span>🎉 Goed! Sleep de kroon naar de kaart op <strong>A9</strong>:</span><img src="hizkia.png" id="crown-hizkia" class="draggable-crown" draggable="true" data-king="hizkia" alt="Hizkia">',
       manasse: '<span>🎉 Goed! Sleep de kroon naar de kaart op <strong>C8</strong>:</span><img src="manasse.png" id="crown-manasse" class="draggable-crown" draggable="true" data-king="manasse" alt="Manasse">',
@@ -818,7 +945,6 @@
       document.querySelectorAll('.nav-btn')[screenNum - 1].classList.add('active');
     }
 
-    // Kwis functies
     function renderQuizQuestion() {
       if (currentQuestionIdx >= quizQuestions.length) {
         document.getElementById('quizQuestionContainer').style.display = 'none';
@@ -845,16 +971,13 @@
       const activeTeam = document.getElementById('activeQuizTeam').value;
 
       if (selectedIdx === item.answer) {
-        // 1. Team score & Kroon verplaatsen
         teamScores[activeTeam] = Math.min(15, teamScores[activeTeam] + 1);
         updateTrackPositions();
 
-        // 2. Coördinaat winnen & Vrijspelen op de kaart (Scherm 4)
         const wonCoord = item.coord;
         const coordData = gridData[wonCoord];
         unlockGridCellDirect(wonCoord);
 
-        // 3. Toon melding in Kwis
         const alertBox = document.getElementById('quizAlert');
         alertBox.style.display = 'block';
         alertBox.innerHTML = `🎉 <strong>GOED!</strong> Team ${activeTeam.toUpperCase()} maakt 1 stap vooruit én wint coördinaat <strong>${wonCoord}</strong>! (Tekst: <code>${coordData.reversed}</code> ➔ Woord: <strong>"${coordData.word}"</strong>)`;
@@ -873,7 +996,7 @@
     function updateTrackPositions() {
       ['rood', 'blauw', 'groen', 'geel'].forEach(team => {
         const score = teamScores[team];
-        const percentage = (score / 15) * 88; // 0% tot 88% op de balk
+        const percentage = (score / 15) * 88;
         const crownEl = document.getElementById(`crown-${team}`);
         if (crownEl) {
           crownEl.style.left = `${percentage}%`;
@@ -921,7 +1044,6 @@
 
     function checkKing(kingKey) {
       const input = document.getElementById(`input-${kingKey}`).value.trim().toLowerCase();
-      
       if (input === kingKey) {
         document.getElementById(`card-${kingKey}`).classList.add('unlocked-king');
         document.getElementById(`unlock-${kingKey}`).style.display = 'block';
@@ -966,7 +1088,6 @@
           coordSpan.textContent = coord;
           cell.appendChild(coordSpan);
 
-          // Drag-over event voor Koningen op Scherm 4
           cell.addEventListener('dragover', (e) => {
             e.preventDefault();
             cell.classList.add('drag-over');
@@ -998,7 +1119,6 @@
       });
     }
 
-    // Vrijspelen via de Kwis
     function unlockGridCellDirect(coord) {
       unlockedCoords.add(coord);
       const cell = document.getElementById(`cell-${coord}`);
@@ -1017,7 +1137,6 @@
       bar.innerHTML = `🎉 <strong>KWIS BELONING!</strong> Coördinaat <strong>${coord}</strong> ontgrendeld! Tekst: <code>${data.reversed}</code> ➔ Woord: <strong>"${data.word}"</strong>`;
     }
 
-    // Vrijspelen via de Koningen
     function unlockGridCellByKing(coord, king, crownEl) {
       unlockedCoords.add(coord);
       const cell = document.getElementById(`cell-${coord}`);
@@ -1047,21 +1166,18 @@
       }
     }
 
-    // --- RESET FUNCTIE VOOR HET VOLLEDIGE SPEL ---
     function resetGame() {
-      const confirmed = confirm("Weet je zeker dat je het spel wilt resetten?\n\nAlle aangemelde teams, kwisvoortgang, koningen en antwoorden worden volledig gewist.");
+      const confirmed = confirm("Weet je zeker dat je het spel wilt resetten?\n\nAlle aangemelde teams, kwisvoortgang en ontgrendelde items worden gewist en de kwis wordt weer vergrendeld.");
       if (!confirmed) return;
 
-      // 1. Firebase Spelers en Teams wissen
-      if (typeof window.clearFirebasePlayers === 'function') {
-        window.clearFirebasePlayers();
+      if (typeof window.clearFirebaseData === 'function') {
+        window.clearFirebaseData();
       }
 
-      // 2. Formulieren & Invoervelden leegmaken
       document.getElementById('loginForm').reset();
+      toggleRoleSelect();
       document.getElementById('finalSolutionInput').value = '';
 
-      // 3. Kwis en Koningsrace resetten
       currentQuestionIdx = 0;
       teamScores = { rood: 0, blauw: 0, groen: 0, geel: 0 };
       updateTrackPositions();
@@ -1071,7 +1187,6 @@
       document.getElementById('quizAlert').style.display = 'none';
       renderQuizQuestion();
 
-      // 4. Koningen-vragen en kronen herstellen
       Object.keys(defaultKingUnlocks).forEach(king => {
         const card = document.getElementById(`card-${king}`);
         if (card) card.classList.remove('unlocked-king');
@@ -1090,19 +1205,16 @@
         }
       });
 
-      // Bind dragstart events opnieuw op de herstelde kronen
       document.querySelectorAll('.draggable-crown').forEach(crown => {
         crown.addEventListener('dragstart', (e) => {
           e.dataTransfer.setData('text/plain', e.target.id);
         });
       });
 
-      // 5. Coördinaten-raster leegmaken
       unlockedCoords.clear();
       renderGrid();
       document.getElementById('coordInfoBar').innerHTML = 'Speel de Kwis op Scherm 2 en vul de koningen in op Scherm 4 om de kaart compleet te maken...';
 
-      // 6. Beloningsmelding verbergen en terug naar Scherm 1
       document.getElementById('rewardMessage').style.display = 'none';
       showScreen(1);
 
