@@ -126,12 +126,13 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.04);
     }
 
-    /* Scherm 2: Video's */
+    /* Scherm 2: Video's & Kwis */
     .video-container {
       display: flex;
       flex-direction: column;
       gap: 24px;
       align-items: center;
+      margin-bottom: 30px;
     }
 
     .video-container iframe {
@@ -141,6 +142,118 @@
       border-radius: 12px;
       border: none;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    /* KROON RACE TRACK STYLES */
+    .race-track-section {
+      background: #0f172a;
+      color: white;
+      padding: 25px;
+      border-radius: 14px;
+      margin-bottom: 30px;
+    }
+
+    .team-lane {
+      display: flex;
+      align-items: center;
+      margin-top: 15px;
+      background: #1e293b;
+      padding: 10px 15px;
+      border-radius: 30px;
+      gap: 15px;
+    }
+
+    .lane-label {
+      width: 100px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .track-bar {
+      flex: 1;
+      position: relative;
+      height: 36px;
+      background: #334155;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+    }
+
+    .runner-crown {
+      position: absolute;
+      font-size: 26px;
+      transition: left 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      top: 2px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    }
+
+    .crown-rood { color: #ef4444; }
+    .crown-blauw { color: #3b82f6; }
+    .crown-groen { color: #10b981; }
+    .crown-geel { color: #f59e0b; }
+
+    /* QUIZ BOX STYLES */
+    .quiz-box {
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .quiz-badge {
+      background: var(--primary);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .quiz-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn-quiz-option {
+      background: white;
+      border: 2px solid #cbd5e1;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .btn-quiz-option:hover {
+      border-color: var(--accent);
+      background: #eff6ff;
+    }
+
+    .quiz-alert {
+      margin-top: 15px;
+      padding: 12px 18px;
+      border-radius: 8px;
+      background: #dcfce7;
+      color: #166534;
+      font-weight: bold;
+      border: 1px solid #86efac;
+      display: none;
+    }
+
+    .quiz-reward-box {
+      background: #10b981;
+      color: white;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 20px;
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
     }
 
     /* Scherm 3: Verhaal */
@@ -161,7 +274,7 @@
       margin-bottom: 30px;
     }
 
-    /* Weetjes Cards met Invoerveld */
+    /* Weetjes Cards */
     .facts-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -177,7 +290,6 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: all 0.3s ease;
     }
 
     .fact-card.unlocked-king {
@@ -207,10 +319,6 @@
       font-weight: bold;
     }
 
-    .btn-check-king:hover {
-      background: #1e3a8a;
-    }
-
     .crown-unlock-zone {
       display: none;
       margin-top: 15px;
@@ -227,11 +335,6 @@
       cursor: grab;
       margin: 5px auto;
       display: block;
-      transition: transform 0.2s;
-    }
-
-    .draggable-crown:hover {
-      transform: scale(1.1);
     }
 
     /* INTERACTIEF COÖRDINATEN RASTER */
@@ -261,7 +364,6 @@
       justify-content: center;
       font-size: 11px;
       position: relative;
-      transition: all 0.2s;
       border: 1px solid #334155;
       user-select: none;
       padding: 4px;
@@ -270,7 +372,6 @@
 
     .grid-cell.drag-over {
       background: #3b82f6 !important;
-      border-color: #ffffff !important;
     }
 
     .grid-cell.header {
@@ -356,7 +457,7 @@
   <!-- NAVIGATIE -->
   <nav>
     <button class="nav-btn active" onclick="showScreen(1)">1. Inloggen</button>
-    <button class="nav-btn" onclick="showScreen(2)">2. Video's</button>
+    <button class="nav-btn" onclick="showScreen(2)">2. Video's & Kwis</button>
     <button class="nav-btn" onclick="showScreen(3)">3. Bijbelverhaal</button>
     <button class="nav-btn" onclick="showScreen(4)">4. Koningen & Rasterspel</button>
   </nav>
@@ -370,10 +471,10 @@
       <input type="text" id="firstName" placeholder="Je Voornaam" required />
       <select id="teamSelect" required>
         <option value="">Kies je Team</option>
-        <option value="Team Rood">Team Rood</option>
-        <option value="Team Blauw">Team Blauw</option>
-        <option value="Team Groen">Team Groen</option>
-        <option value="Team Geel">Team Geel</option>
+        <option value="rood">Team Rood 🔴</option>
+        <option value="blauw">Team Blauw 🔵</option>
+        <option value="groen">Team Groen 🟢</option>
+        <option value="geel">Team Geel 🟡</option>
       </select>
       <button type="submit" class="btn-submit">Aanmelden</button>
     </form>
@@ -382,14 +483,79 @@
     <div id="teamList" class="team-list"></div>
   </div>
 
-  <!-- SCHERM 2 -->
+  <!-- SCHERM 2: VIDEO'S & INTERACTIEVE KWIS -->
   <div id="screen2" class="screen">
-    <h2>Bekijk de Video's</h2>
+    <h2>Bekijk de Video's & Speel de Koningskwis</h2>
+    
     <div class="video-container">
       <iframe src="https://www.youtube.com/embed/KVCt79L_BnA" allowfullscreen></iframe>
       <iframe src="https://www.youtube.com/embed/mTc186YgWfo" allowfullscreen></iframe>
       <iframe src="https://www.youtube.com/embed/M_v3FKIiSKU" allowfullscreen></iframe>
     </div>
+
+    <!-- KROON RACE TRACK -->
+    <div class="race-track-section">
+      <h3>👑 Koningsrace: Verdien Coördinaten voor de Kaart!</h3>
+      <p>Kies hieronder je team. Bij elk goed antwoord schuift jouw gekleurde kroon 1 stap vooruit én ontgrendel je direct een coördinaat op Scherm 4!</p>
+
+      <div style="margin-bottom: 15px;">
+        <label style="font-weight:bold;">Speel nu voor: </label>
+        <select id="activeQuizTeam" style="padding: 6px 12px; font-size:14px; border-radius:6px;">
+          <option value="rood">Team Rood 🔴</option>
+          <option value="blauw">Team Blauw 🔵</option>
+          <option value="groen">Team Groen 🟢</option>
+          <option value="geel">Team Geel 🟡</option>
+        </select>
+      </div>
+
+      <!-- Banen voor 4 teams -->
+      <div class="team-lane">
+        <div class="lane-label" style="color: #ef4444;">Team Rood</div>
+        <div class="track-bar">
+          <div class="runner-crown crown-rood" id="crown-rood" style="left: 0%;">👑</div>
+        </div>
+      </div>
+
+      <div class="team-lane">
+        <div class="lane-label" style="color: #3b82f6;">Team Blauw</div>
+        <div class="track-bar">
+          <div class="runner-crown crown-blauw" id="crown-blauw" style="left: 0%;">👑</div>
+        </div>
+      </div>
+
+      <div class="team-lane">
+        <div class="lane-label" style="color: #10b981;">Team Groen</div>
+        <div class="track-bar">
+          <div class="runner-crown crown-groen" id="crown-groen" style="left: 0%;">👑</div>
+        </div>
+      </div>
+
+      <div class="team-lane">
+        <div class="lane-label" style="color: #f59e0b;">Team Geel</div>
+        <div class="track-bar">
+          <div class="runner-crown crown-geel" id="crown-geel" style="left: 0%;">👑</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTERACTIEVE KWIS CONTAINER -->
+    <div class="quiz-box">
+      <div id="quizQuestionContainer">
+        <span class="quiz-badge" id="quizStepBadge">Vraag 1 / 15</span>
+        <h3 id="quizQuestionText" style="margin-top:12px; font-size: 1.2em;">Vraag laden...</h3>
+        <div id="quizOptions" class="quiz-options-grid"></div>
+        
+        <div id="quizAlert" class="quiz-alert"></div>
+      </div>
+
+      <!-- BELONINGSBOX BIJ VOLTOOIING -->
+      <div id="quizRewardBox" class="quiz-reward-box" style="display:none;">
+        🎉 <h2>GEFELICITEERD! ALLE KWISVRAGEN ZIJN BEANTWOORD!</h2>
+        <p>Jullie hebben alle 15 vragen goed en 15 coördinaten op de kaart vrijgespeeld!</p>
+        <p><em>Ga nu naar Scherm 4 om de laatste koningen-vragen op te lossen en de geheime zin te ontcijferen!</em></p>
+      </div>
+    </div>
+
   </div>
 
   <!-- SCHERM 3 -->
@@ -413,11 +579,11 @@
     <h3>Stap 1: Raad de Koning om de Kroon vrij te spelen</h3>
     <p>Zoek de Bijbeltekst op. Vul de juiste naam in. Is de naam goed? Dan verschijnt de kroon!</p>
 
-    <!-- Weetjes Grid met Input fields -->
+    <!-- Weetjes Grid -->
     <div class="facts-grid">
       
       <!-- Hizkia -->
-      <div class="fact-card" id="card-hizkia" data-king="hizkia" data-coord="A9">
+      <div class="fact-card" id="card-hizkia" data-king="hizkia">
         <p><strong>"Ik leg een brief in de tempel."</strong><br><em>2 Koningen 19:14</em></p>
         <div class="king-input-group">
           <input type="text" placeholder="Welke koning?" id="input-hizkia" />
@@ -430,7 +596,7 @@
       </div>
 
       <!-- Manasse -->
-      <div class="fact-card" id="card-manasse" data-king="manasse" data-coord="C8">
+      <div class="fact-card" id="card-manasse" data-king="manasse">
         <p><strong>"Ik ben maar liefst 55 jaar lang koning."</strong><br><em>2 Kronieken 33:1</em></p>
         <div class="king-input-group">
           <input type="text" placeholder="Welke koning?" id="input-manasse" />
@@ -443,7 +609,7 @@
       </div>
 
       <!-- Asa -->
-      <div class="fact-card" id="card-asa" data-king="asa" data-coord="C1">
+      <div class="fact-card" id="card-asa" data-king="asa">
         <p><strong>"Ik laat alle godenbeelden uit het land weghalen."</strong><br><em>1 Koningen 15:11-12</em></p>
         <div class="king-input-group">
           <input type="text" placeholder="Welke koning?" id="input-asa" />
@@ -456,7 +622,7 @@
       </div>
 
       <!-- Joas -->
-      <div class="fact-card" id="card-joas" data-king="joas" data-coord="D6">
+      <div class="fact-card" id="card-joas" data-king="joas">
         <p><strong>"Mijn eigen dienaren doden mij."</strong><br><em>2 Koningen 12:20-22</em></p>
         <div class="king-input-group">
           <input type="text" placeholder="Welke koning?" id="input-joas" />
@@ -469,7 +635,7 @@
       </div>
 
       <!-- Jotam -->
-      <div class="fact-card" id="card-jotam" data-king="jotam" data-coord="D4">
+      <div class="fact-card" id="card-jotam" data-king="jotam">
         <p><strong>"Ik regeer over het land terwijl mijn vader nog leeft, maar hij is ziek."</strong><br><em>2 Koningen 15:3-5</em></p>
         <div class="king-input-group">
           <input type="text" placeholder="Welke koning?" id="input-jotam" />
@@ -482,7 +648,7 @@
       </div>
 
       <!-- Salomo -->
-      <div class="fact-card" id="card-salomo" data-king="salomo" data-coord="C5">
+      <div class="fact-card" id="card-salomo" data-king="salomo">
         <p><strong>"Ik bouw in Jeruzalem de tempel voor de Heer."</strong><br><em>1 Koningen 6:1</em></p>
         <div class="king-input-group">
           <input type="text" placeholder="Welke koning?" id="input-salomo" />
@@ -495,7 +661,7 @@
       </div>
 
       <!-- Josia -->
-      <div class="fact-card" id="card-josia" data-king="josia" data-coord="G4">
+      <div class="fact-card" id="card-josia" data-king="josia">
         <p><strong>"Ik word koning als ik nog maar acht jaar oud ben."</strong><br><em>2 Koningen 22:1</em></p>
         <div class="king-input-group">
           <input type="text" placeholder="Welke koning?" id="input-josia" />
@@ -511,13 +677,13 @@
 
     <!-- INTERACTIEVE COÖRDINATENKAART -->
     <div class="grid-section">
-      <h3>Stap 2: Sleep de Kroon naar het juiste Coördinaat op de Kaart</h3>
-      <p>Als je een kroon naar de juiste plek op het raster sleept, verschijnt het ontcijferde woord blijvend op de kaart!</p>
+      <h3>Stap 2: De Ontcijferde Kaart</h3>
+      <p>Woorden die je in de Kwis of met de Koningen-vragen wint, verschijnen direct op dit raster!</p>
       
       <div id="gridMap" class="grid-container"></div>
 
       <div id="coordInfoBar" class="coord-info-bar">
-        Vul een koning in en sleep de kroon naar het juiste vakje op de kaart...
+        Speel de Kwis op Scherm 2 en vul de koningen in op Scherm 4 om de kaart compleet te maken...
       </div>
     </div>
 
@@ -562,7 +728,7 @@
 
       if(name && team) {
         push(playersRef, { name, team, timestamp: Date.now() });
-        alert(`Welkom ${name}! Je bent ingedeeld bij ${team}.`);
+        alert(`Welkom ${name}! Je bent ingedeeld bij Team ${team.toUpperCase()}.`);
         document.getElementById('firstName').value = '';
       }
     });
@@ -575,16 +741,192 @@
         Object.values(data).forEach(player => {
           const card = document.createElement('div');
           card.className = 'player-card';
-          card.innerHTML = `<strong>${player.name}</strong><br><small style="color:#64748b">${player.team}</small>`;
+          card.innerHTML = `<strong>${player.name}</strong><br><small style="color:#64748b">Team ${player.team.toUpperCase()}</small>`;
           teamListDiv.appendChild(card);
         });
       }
     });
   </script>
 
-  <!-- Game Logic -->
+  <!-- Game Logic & Quiz Engine -->
   <script>
-    // Database van het raster
+    // 15 KWISVRAGEN GEKOPPELD AAN DE 15 LOSSE COÖRDINATEN
+    const quizQuestions = [
+      {
+        q: "1. Welke kleur draagt bijna iedereen op Koningsdag en is de kleur van ons koningshuis?",
+        options: ["Rood", "Oranje", "Blauw", "Goud"],
+        answer: 1,
+        coord: "A1"
+      },
+      {
+        q: "2. In welke Nederlandse stad vonden de inhuldigingen van Juliana, Beatrix en Willem-Alexander plaats?",
+        options: ["Den Haag", "Utrecht", "Amsterdam", "Rotterdam"],
+        answer: 2,
+        coord: "A3"
+      },
+      {
+        q: "3. Wie was de koningin van Nederland vóór koning Willem-Alexander het overnam in 2013?",
+        options: ["Koningin Wilhelmina", "Koningin Juliana", "Koningin Beatrix", "Koningin Máxima"],
+        answer: 2,
+        coord: "A6"
+      },
+      {
+        q: "4. Hoe noemen we de grote rode mantel met wit bont die de koning draagt bij de inhuldiging?",
+        options: ["Koningsmantel", "Regenjas van de Koning", "Troondeken", "Gouden Cape"],
+        answer: 0,
+        coord: "B7"
+      },
+      {
+        q: "5. Hoe heet de vrouw van koning Willem-Alexander?",
+        options: ["Prinses Amalia", "Koningin Máxima", "Prinses Laurentien", "Koningin Beatrix"],
+        answer: 1,
+        coord: "C3"
+      },
+      {
+        q: "6. Hoe heet de oudste dochter van Willem-Alexander en Máxima, die later koningin wordt?",
+        options: ["Prinses Alexia", "Prinses Ariane", "Prinses Amalia", "Prinses Beatrix"],
+        answer: 2,
+        coord: "D2"
+      },
+      {
+        q: "7. Waar bevindt de gouden kroon zich tijdens de inhuldiging in de kerk?",
+        options: ["Op het hoofd van de koning", "Op een speciale tafel vóór de koning", "In een kluis bij de bank", "Op de stoel van de koningin"],
+        answer: 1,
+        coord: "E9"
+      },
+      {
+        q: "8. Op welke datum vieren we tegenwoordig Koningsdag in Nederland?",
+        options: ["30 april", "27 april", "5 mei", "31 augustus"],
+        answer: 1,
+        coord: "F1"
+      },
+      {
+        q: "9. Welk bekende lied zingen we in Nederland bij officiële gebeurtenissen van het koningshuis?",
+        options: ["Het Wilhelmus", "Zie ginds komt de stoomboot", "Links Rechts", "Zie de maan schijnt"],
+        answer: 0,
+        coord: "F3"
+      },
+      {
+        q: "10. Welke beroemde 200 km schaatstocht op natuurijs reed koning Willem-Alexander in 1985 als tiener mee?",
+        options: ["De Vierdaagse", "De Elfstedentocht", "De Amstel Gold Race", "De Marathon van Amsterdam"],
+        answer: 1,
+        coord: "F5"
+      },
+      {
+        q: "11. In welk beroemd gebouw naast het Paleis op de Dam worden koningen en koninginnen ingehuldigd?",
+        options: ["De Domtoren", "De Nieuwe Kerk", "De Johan Cruijff ArenA", "Het Rijksmuseum"],
+        answer: 1,
+        coord: "F6"
+      },
+      {
+        q: "12. Wat roept het publiek op het plein traditiegetrouw naar de koninklijke familie op het balkon?",
+        options: ["Hoera! Hoera! Hoera!", "Fijne verjaardag!", "Dankjewel!", "Hallo allemaal!"],
+        answer: 0,
+        coord: "F7"
+      },
+      {
+        q: "13. Wat is een ander officieel woord voor 'vrijwillig stoppen als koning of koningin'?",
+        options: ["Pensioen", "Troonsafstand (Abdicatie)", "Vakantie", "Schorsing"],
+        answer: 1,
+        coord: "G2"
+      },
+      {
+        q: "14. In welke bekende stad in Zuid-Holland werkt en woont de koning met zijn gezin?",
+        options: ["Amsterdam", "Rotterdam", "Den Haag", "Utrecht"],
+        answer: 2,
+        coord: "G6"
+      },
+      {
+        q: "15. Welk bekend oranje gebakje wordt in Nederland massaal gegeten op Koningsdag?",
+        options: ["Oranje tompouce / tompoes", "Bossche bol", "Appeltaart", "Stroopwafel"],
+        answer: 0,
+        coord: "H8"
+      }
+    ];
+
+    // Teams scores (stappen van 0 tot 15)
+    const teamScores = {
+      rood: 0,
+      blauw: 0,
+      groen: 0,
+      geel: 0
+    };
+
+    let currentQuestionIdx = 0;
+
+    function showScreen(screenNum) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(`screen${screenNum}`).classList.add('active');
+      document.querySelectorAll('.nav-btn')[screenNum - 1].classList.add('active');
+    }
+
+    // Kwis functies
+    function renderQuizQuestion() {
+      if (currentQuestionIdx >= quizQuestions.length) {
+        document.getElementById('quizQuestionContainer').style.display = 'none';
+        document.getElementById('quizRewardBox').style.display = 'block';
+        return;
+      }
+
+      const item = quizQuestions[currentQuestionIdx];
+      document.getElementById('quizStepBadge').textContent = `Vraag ${currentQuestionIdx + 1} /${quizQuestions.length}`;
+      document.getElementById('quizQuestionText').textContent = item.q;
+
+      const optsContainer = document.getElementById('quizOptions');
+      optsContainer.innerHTML = '';
+
+      item.options.forEach((optText, idx) => {
+        const btn = document.createElement('button');
+        btn.className = 'btn-quiz-option';
+        btn.textContent = optText;
+        btn.onclick = () => answerQuizQuestion(idx);
+        optsContainer.appendChild(btn);
+      });
+    }
+
+    function answerQuizQuestion(selectedIdx) {
+      const item = quizQuestions[currentQuestionIdx];
+      const activeTeam = document.getElementById('activeQuizTeam').value;
+
+      if (selectedIdx === item.answer) {
+        // 1. Team score & Kroon verplaatsen
+        teamScores[activeTeam] = Math.min(15, teamScores[activeTeam] + 1);
+        updateTrackPositions();
+
+        // 2. Coördinaat winnen & Vrijspelen op de kaart (Scherm 4)
+        const wonCoord = item.coord;
+        const coordData = gridData[wonCoord];
+        unlockGridCellDirect(wonCoord);
+
+        // 3. Toon melding in Kwis
+        const alertBox = document.getElementById('quizAlert');
+        alertBox.style.display = 'block';
+        alertBox.innerHTML = `🎉 <strong>GOED!</strong> Team ${activeTeam.toUpperCase()} maakt 1 stap vooruit én wint coördinaat <strong>${wonCoord}</strong>! (Tekst: <code>${coordData.reversed}</code> ➔ Woord: <strong>"${coordData.word}"</strong>)`;
+
+        setTimeout(() => {
+          alertBox.style.display = 'none';
+          currentQuestionIdx++;
+          renderQuizQuestion();
+        }, 2200);
+
+      } else {
+        alert('Helaas, dat is niet juist. Probeer het opnieuw!');
+      }
+    }
+
+    function updateTrackPositions() {
+      ['rood', 'blauw', 'groen', 'geel'].forEach(team => {
+        const score = teamScores[team];
+        const percentage = (score / 15) * 88; // 0% tot 88% op de balk
+        const crownEl = document.getElementById(`crown-${team}`);
+        if (crownEl) {
+          crownEl.style.left = `${percentage}%`;
+        }
+      });
+    }
+
+    // --- RASTER SPEL LOGICA (SCHERM 4) ---
     const gridData = {
       "A1": { reversed: ".njiz", word: "zijn." },
       "A3": { reversed: "dnamei", word: "iemand" },
@@ -622,14 +964,6 @@
 
     const unlockedCoords = new Set();
 
-    function showScreen(screenNum) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      document.getElementById(`screen${screenNum}`).classList.add('active');
-      document.querySelectorAll('.nav-btn')[screenNum - 1].classList.add('active');
-    }
-
-    // Controleer de ingevoerde koningsnaam
     function checkKing(kingKey) {
       const input = document.getElementById(`input-${kingKey}`).value.trim().toLowerCase();
       
@@ -642,7 +976,6 @@
       }
     }
 
-    // Genereer het A1 t/m H9 raster
     function renderGrid() {
       const gridMap = document.getElementById('gridMap');
       gridMap.innerHTML = '';
@@ -650,7 +983,6 @@
       const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
       const cols = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-      // Header rij
       const emptyCorner = document.createElement('div');
       emptyCorner.className = 'grid-cell header';
       gridMap.appendChild(emptyCorner);
@@ -662,7 +994,6 @@
         gridMap.appendChild(headerCell);
       });
 
-      // Rows A t/m H
       rows.forEach(r => {
         const rowLabel = document.createElement('div');
         rowLabel.className = 'grid-cell header';
@@ -680,7 +1011,7 @@
           coordSpan.textContent = coord;
           cell.appendChild(coordSpan);
 
-          // Dragover en Drop events inschakelen op ELK vakje
+          // Drag-over event voor Koningen op Scherm 4
           cell.addEventListener('dragover', (e) => {
             e.preventDefault();
             cell.classList.add('drag-over');
@@ -701,7 +1032,7 @@
             const expectedCoord = kingTargetCoords[king];
 
             if (coord === expectedCoord) {
-              unlockGridCell(coord, king, crownEl);
+              unlockGridCellByKing(coord, king, crownEl);
             } else {
               alert(`Oeps! Koning ${king.toUpperCase()} hoort niet op vakje${coord}. Probeer een ander vakje!`);
             }
@@ -712,15 +1043,34 @@
       });
     }
 
-    // Als de kroon op het juiste coördinaat valt:
-    function unlockGridCell(coord, king, crownEl) {
+    // Vrijspelen via de Kwis
+    function unlockGridCellDirect(coord) {
+      unlockedCoords.add(coord);
+      const cell = document.getElementById(`cell-${coord}`);
+      if (!cell) return;
+      
+      cell.classList.add('unlocked');
+      const data = gridData[coord];
+
+      cell.innerHTML = `
+        <span class="cell-coord">${coord}</span>
+        <span style="font-size:14px;">⭐</span>
+        <span class="cell-reversed-text">${data.reversed}</span>
+        <span class="cell-decoded-text">${data.word}</span>
+      `;
+
+      const bar = document.getElementById('coordInfoBar');
+      bar.innerHTML = `🎉 <strong>KWIS BELONING!</strong> Coördinaat <strong>${coord}</strong> ontgrendeld! Tekst: <code>${data.reversed}</code> ➔ Woord: <strong>"${data.word}"</strong>`;
+    }
+
+    // Vrijspelen via de Koningen
+    function unlockGridCellByKing(coord, king, crownEl) {
       unlockedCoords.add(coord);
       const cell = document.getElementById(`cell-${coord}`);
       cell.classList.add('unlocked');
 
       const data = gridData[coord];
 
-      // Toon het omgekeerde woord én het vertaalde woord blijvend op het raster
       cell.innerHTML = `
         <span class="cell-coord">${coord}</span>
         <span style="font-size:16px;">👑</span>
@@ -728,18 +1078,16 @@
         <span class="cell-decoded-text">${data.word}</span>
       `;
 
-      // Verberg de kroon in het weetje-blok
       crownEl.parentElement.innerHTML = `<span style="color:var(--success);font-weight:bold;">✅ Geplaatst op ${coord}!</span>`;
 
-      // Update de informatiebalk
       const bar = document.getElementById('coordInfoBar');
-      bar.innerHTML = `🎉 <strong>UITSTEKEND!</strong> Je hebt coördinaat <strong>${coord}</strong> ontgrendeld! Tekst: <code>${data.reversed}</code> ➔ Woord: <strong>"${data.word}"</strong>`;
+      bar.innerHTML = `🎉 <strong>KONING GEPLAATST!</strong> Coördinaat <strong>${coord}</strong> ontgrendeld! Tekst: <code>${data.reversed}</code> ➔ Woord: <strong>"${data.word}"</strong>`;
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      renderQuizQuestion();
       renderGrid();
 
-      // Dragstart event inschakelen op kronen
       document.querySelectorAll('.draggable-crown').forEach(crown => {
         crown.addEventListener('dragstart', (e) => {
           e.dataTransfer.setData('text/plain', e.target.id);
@@ -747,7 +1095,6 @@
       });
     });
 
-    // Eindcontrole van de oplossing
     function checkSolution() {
       const input = document.getElementById('finalSolutionInput').value.trim().toLowerCase();
       const cleanInput = input.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").replace(/\s+/g, " ");
