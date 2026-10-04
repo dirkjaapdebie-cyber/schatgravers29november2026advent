@@ -10,10 +10,10 @@
       --secondary: #f59e0b;
       --success: #10b981;
       --accent: #3b82f6;
+      --danger: #ef4444;
       --bg: #f3f4f6;
       --card-bg: #ffffff;
     }
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: var(--bg);
@@ -21,20 +21,20 @@
       padding: 0;
       color: #1f2937;
     }
-
     /* Navigatie */
     nav {
       background-color: var(--primary);
       padding: 12px 20px;
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 12px;
       position: sticky;
       top: 0;
       z-index: 100;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      flex-wrap: wrap;
     }
-
     nav button {
       background: rgba(255, 255, 255, 0.15);
       border: 1px solid rgba(255, 255, 255, 0.3);
@@ -45,17 +45,22 @@
       color: white;
       transition: all 0.2s ease;
     }
-
     nav button:hover {
       background: rgba(255, 255, 255, 0.3);
     }
-
     nav button.active {
       background-color: var(--secondary);
       color: white;
       border-color: var(--secondary);
     }
-
+    nav button.btn-reset {
+      background-color: var(--danger);
+      border-color: #dc2626;
+      margin-left: 15px;
+    }
+    nav button.btn-reset:hover {
+      background-color: #b91c1c;
+    }
     .screen {
       display: none;
       max-width: 1100px;
@@ -65,16 +70,13 @@
       border-radius: 12px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
-
     .screen.active {
       display: block;
     }
-
     h1, h2, h3 {
       color: var(--primary);
       margin-top: 0;
     }
-
     /* Scherm 1: Login */
     .login-form {
       display: flex;
@@ -87,14 +89,12 @@
       border-radius: 10px;
       border: 1px solid #e2e8f0;
     }
-
     input, select {
       padding: 12px;
       border: 2px solid #cbd5e1;
       border-radius: 8px;
       font-size: 16px;
     }
-
     button.btn-submit {
       padding: 12px 24px;
       background-color: var(--secondary);
@@ -106,18 +106,15 @@
       cursor: pointer;
       transition: background-color 0.2s;
     }
-
     button.btn-submit:hover {
       background-color: #d97706;
     }
-
     .team-list {
       margin-top: 30px;
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 15px;
     }
-
     .player-card {
       background: #eff6ff;
       padding: 12px 16px;
@@ -125,7 +122,6 @@
       border-left: 4px solid var(--accent);
       box-shadow: 0 2px 4px rgba(0,0,0,0.04);
     }
-
     /* Scherm 2: Video's & Kwis */
     .video-container {
       display: flex;
@@ -134,7 +130,6 @@
       align-items: center;
       margin-bottom: 30px;
     }
-
     .video-container iframe {
       width: 100%;
       max-width: 720px;
@@ -143,7 +138,6 @@
       border: none;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
-
     /* KROON RACE TRACK STYLES */
     .race-track-section {
       background: #0f172a;
@@ -152,7 +146,6 @@
       border-radius: 14px;
       margin-bottom: 30px;
     }
-
     .team-lane {
       display: flex;
       align-items: center;
@@ -162,13 +155,11 @@
       border-radius: 30px;
       gap: 15px;
     }
-
     .lane-label {
       width: 100px;
       font-weight: bold;
       font-size: 14px;
     }
-
     .track-bar {
       flex: 1;
       position: relative;
@@ -179,7 +170,6 @@
       align-items: center;
       padding: 0 10px;
     }
-
     .runner-crown {
       position: absolute;
       font-size: 26px;
@@ -187,12 +177,10 @@
       top: 2px;
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
     }
-
     .crown-rood { color: #ef4444; }
     .crown-blauw { color: #3b82f6; }
     .crown-groen { color: #10b981; }
     .crown-geel { color: #f59e0b; }
-
     /* QUIZ BOX STYLES */
     .quiz-box {
       background: #f8fafc;
@@ -201,7 +189,6 @@
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
-
     .quiz-badge {
       background: var(--primary);
       color: white;
@@ -210,14 +197,12 @@
       font-size: 13px;
       font-weight: bold;
     }
-
     .quiz-options-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 12px;
       margin-top: 20px;
     }
-
     .btn-quiz-option {
       background: white;
       border: 2px solid #cbd5e1;
@@ -229,12 +214,10 @@
       text-align: left;
       transition: all 0.2s;
     }
-
     .btn-quiz-option:hover {
       border-color: var(--accent);
       background: #eff6ff;
     }
-
     .quiz-alert {
       margin-top: 15px;
       padding: 12px 18px;
@@ -245,7 +228,6 @@
       border: 1px solid #86efac;
       display: none;
     }
-
     .quiz-reward-box {
       background: #10b981;
       color: white;
@@ -255,7 +237,6 @@
       margin-top: 20px;
       box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
     }
-
     /* Scherm 3: Verhaal */
     .story-box {
       line-height: 1.8;
@@ -265,7 +246,6 @@
       border-radius: 12px;
       border-left: 6px solid var(--secondary);
     }
-
     .iframe-box {
       width: 100%;
       height: 450px;
@@ -273,7 +253,6 @@
       border-radius: 10px;
       margin-bottom: 30px;
     }
-
     /* Weetjes Cards */
     .facts-grid {
       display: grid;
@@ -281,7 +260,6 @@
       gap: 20px;
       margin-bottom: 35px;
     }
-
     .fact-card {
       border: 2px solid #cbd5e1;
       padding: 20px;
@@ -291,24 +269,20 @@
       flex-direction: column;
       justify-content: space-between;
     }
-
     .fact-card.unlocked-king {
       border-color: var(--success);
       background: #f0fdf4;
     }
-
     .king-input-group {
       display: flex;
       gap: 8px;
       margin-top: 15px;
     }
-
     .king-input-group input {
       flex: 1;
       padding: 8px 12px;
       font-size: 14px;
     }
-
     .btn-check-king {
       padding: 8px 14px;
       background: var(--primary);
@@ -318,7 +292,6 @@
       cursor: pointer;
       font-weight: bold;
     }
-
     .crown-unlock-zone {
       display: none;
       margin-top: 15px;
@@ -328,7 +301,6 @@
       border-radius: 8px;
       text-align: center;
     }
-
     .draggable-crown {
       width: 70px;
       height: auto;
@@ -336,7 +308,6 @@
       margin: 5px auto;
       display: block;
     }
-
     /* INTERACTIEF COÖRDINATEN RASTER */
     .grid-section {
       background: #0f172a;
@@ -345,7 +316,6 @@
       border-radius: 14px;
       margin-bottom: 35px;
     }
-
     .grid-container {
       display: grid;
       grid-template-columns: 35px repeat(9, 1fr);
@@ -353,7 +323,6 @@
       margin-top: 15px;
       overflow-x: auto;
     }
-
     .grid-cell {
       background: #1e293b;
       min-height: 65px;
@@ -369,11 +338,9 @@
       padding: 4px;
       text-align: center;
     }
-
     .grid-cell.drag-over {
       background: #3b82f6 !important;
     }
-
     .grid-cell.header {
       background: transparent;
       border: none;
@@ -381,13 +348,11 @@
       color: var(--secondary);
       min-height: auto;
     }
-
     .grid-cell.unlocked {
       background: #78350f !important;
       border: 2px solid var(--secondary) !important;
       box-shadow: 0 0 12px rgba(245, 158, 11, 0.6);
     }
-
     .cell-coord {
       position: absolute;
       top: 2px;
@@ -395,14 +360,12 @@
       font-size: 9px;
       color: #64748b;
     }
-
     .cell-reversed-text {
       color: #93c5fd;
       font-weight: bold;
       font-size: 12px;
       font-family: monospace;
     }
-
     .cell-decoded-text {
       color: #fef08a;
       font-weight: bold;
@@ -412,7 +375,6 @@
       padding: 2px 6px;
       border-radius: 4px;
     }
-
     .coord-info-bar {
       background: #1e293b;
       padding: 12px 18px;
@@ -421,7 +383,6 @@
       font-size: 14px;
       border-left: 4px solid var(--secondary);
     }
-
     /* Oplossingsveld */
     .solution-box {
       background: #f1f5f9;
@@ -430,7 +391,6 @@
       text-align: center;
       border: 2px solid #e2e8f0;
     }
-
     .solution-input {
       width: 90%;
       max-width: 600px;
@@ -438,7 +398,6 @@
       margin-bottom: 15px;
       font-size: 16px;
     }
-
     .reward-message {
       display: none;
       margin-top: 20px;
@@ -453,13 +412,14 @@
   </style>
 </head>
 <body>
-
   <!-- NAVIGATIE -->
   <nav>
     <button class="nav-btn active" onclick="showScreen(1)">1. Inloggen</button>
     <button class="nav-btn" onclick="showScreen(2)">2. Video's & Kwis</button>
     <button class="nav-btn" onclick="showScreen(3)">3. Bijbelverhaal</button>
     <button class="nav-btn" onclick="showScreen(4)">4. Koningen & Rasterspel</button>
+    <!-- RESETKNOP -->
+    <button class="nav-btn btn-reset" onclick="resetGame()">🔄 Reset Spel</button>
   </nav>
 
   <!-- SCHERM 1 -->
@@ -478,7 +438,6 @@
       </select>
       <button type="submit" class="btn-submit">Aanmelden</button>
     </form>
-
     <h3>Aangemelde Deelnemers</h3>
     <div id="teamList" class="team-list"></div>
   </div>
@@ -497,7 +456,6 @@
     <div class="race-track-section">
       <h3>👑 Koningsrace: Verdien Coördinaten voor de Kaart!</h3>
       <p>Kies hieronder je team. Bij elk goed antwoord schuift jouw gekleurde kroon 1 stap vooruit én ontgrendel je direct een coördinaat op Scherm 4!</p>
-
       <div style="margin-bottom: 15px;">
         <label style="font-weight:bold;">Speel nu voor: </label>
         <select id="activeQuizTeam" style="padding: 6px 12px; font-size:14px; border-radius:6px;">
@@ -515,21 +473,18 @@
           <div class="runner-crown crown-rood" id="crown-rood" style="left: 0%;">👑</div>
         </div>
       </div>
-
       <div class="team-lane">
         <div class="lane-label" style="color: #3b82f6;">Team Blauw</div>
         <div class="track-bar">
           <div class="runner-crown crown-blauw" id="crown-blauw" style="left: 0%;">👑</div>
         </div>
       </div>
-
       <div class="team-lane">
         <div class="lane-label" style="color: #10b981;">Team Groen</div>
         <div class="track-bar">
           <div class="runner-crown crown-groen" id="crown-groen" style="left: 0%;">👑</div>
         </div>
       </div>
-
       <div class="team-lane">
         <div class="lane-label" style="color: #f59e0b;">Team Geel</div>
         <div class="track-bar">
@@ -544,7 +499,6 @@
         <span class="quiz-badge" id="quizStepBadge">Vraag 1 / 15</span>
         <h3 id="quizQuestionText" style="margin-top:12px; font-size: 1.2em;">Vraag laden...</h3>
         <div id="quizOptions" class="quiz-options-grid"></div>
-        
         <div id="quizAlert" class="quiz-alert"></div>
       </div>
 
@@ -555,7 +509,6 @@
         <p><em>Ga nu naar Scherm 4 om de laatste koningen-vragen op te lossen en de geheime zin te ontcijferen!</em></p>
       </div>
     </div>
-
   </div>
 
   <!-- SCHERM 3 -->
@@ -575,13 +528,11 @@
     <h2>Zoek de Koningen & Ontcijfer de Kaart</h2>
     
     <iframe class="iframe-box" src="https://www.bible.com/nl/bible/75/JHN.1.HTB"></iframe>
-
     <h3>Stap 1: Raad de Koning om de Kroon vrij te spelen</h3>
     <p>Zoek de Bijbeltekst op. Vul de juiste naam in. Is de naam goed? Dan verschijnt de kroon!</p>
-
+    
     <!-- Weetjes Grid -->
     <div class="facts-grid">
-      
       <!-- Hizkia -->
       <div class="fact-card" id="card-hizkia" data-king="hizkia">
         <p><strong>"Ik leg een brief in de tempel."</strong><br><em>2 Koningen 19:14</em></p>
@@ -594,7 +545,6 @@
           <img src="hizkia.png" id="crown-hizkia" class="draggable-crown" draggable="true" data-king="hizkia" alt="Hizkia">
         </div>
       </div>
-
       <!-- Manasse -->
       <div class="fact-card" id="card-manasse" data-king="manasse">
         <p><strong>"Ik ben maar liefst 55 jaar lang koning."</strong><br><em>2 Kronieken 33:1</em></p>
@@ -607,7 +557,6 @@
           <img src="manasse.png" id="crown-manasse" class="draggable-crown" draggable="true" data-king="manasse" alt="Manasse">
         </div>
       </div>
-
       <!-- Asa -->
       <div class="fact-card" id="card-asa" data-king="asa">
         <p><strong>"Ik laat alle godenbeelden uit het land weghalen."</strong><br><em>1 Koningen 15:11-12</em></p>
@@ -620,7 +569,6 @@
           <img src="asa.png" id="crown-asa" class="draggable-crown" draggable="true" data-king="asa" alt="Asa">
         </div>
       </div>
-
       <!-- Joas -->
       <div class="fact-card" id="card-joas" data-king="joas">
         <p><strong>"Mijn eigen dienaren doden mij."</strong><br><em>2 Koningen 12:20-22</em></p>
@@ -633,7 +581,6 @@
           <img src="joas.png" id="crown-joas" class="draggable-crown" draggable="true" data-king="joas" alt="Joas">
         </div>
       </div>
-
       <!-- Jotam -->
       <div class="fact-card" id="card-jotam" data-king="jotam">
         <p><strong>"Ik regeer over het land terwijl mijn vader nog leeft, maar hij is ziek."</strong><br><em>2 Koningen 15:3-5</em></p>
@@ -646,7 +593,6 @@
           <img src="jotam.png" id="crown-jotam" class="draggable-crown" draggable="true" data-king="jotam" alt="Jotam">
         </div>
       </div>
-
       <!-- Salomo -->
       <div class="fact-card" id="card-salomo" data-king="salomo">
         <p><strong>"Ik bouw in Jeruzalem de tempel voor de Heer."</strong><br><em>1 Koningen 6:1</em></p>
@@ -659,7 +605,6 @@
           <img src="salomo.png" id="crown-salomo" class="draggable-crown" draggable="true" data-king="salomo" alt="Salomo">
         </div>
       </div>
-
       <!-- Josia -->
       <div class="fact-card" id="card-josia" data-king="josia">
         <p><strong>"Ik word koning als ik nog maar acht jaar oud ben."</strong><br><em>2 Koningen 22:1</em></p>
@@ -672,7 +617,6 @@
           <img src="josia.png" id="crown-josia" class="draggable-crown" draggable="true" data-king="josia" alt="Josia">
         </div>
       </div>
-
     </div>
 
     <!-- INTERACTIEVE COÖRDINATENKAART -->
@@ -681,7 +625,6 @@
       <p>Woorden die je in de Kwis of met de Koningen-vragen wint, verschijnen direct op dit raster!</p>
       
       <div id="gridMap" class="grid-container"></div>
-
       <div id="coordInfoBar" class="coord-info-bar">
         Speel de Kwis op Scherm 2 en vul de koningen in op Scherm 4 om de kaart compleet te maken...
       </div>
@@ -694,7 +637,6 @@
       <input type="text" id="finalSolutionInput" class="solution-input" placeholder="Typ hier de ontcijferde zin..." />
       <br>
       <button class="btn-submit" onclick="checkSolution()">Controleer Oplossing</button>
-
       <div id="rewardMessage" class="reward-message">
         🎉 GEFELICITEERD! Jullie hebben de geheime boodschap van Koning David ontcijferd! 👑🏆
       </div>
@@ -704,8 +646,8 @@
   <!-- Firebase Integration -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
+    import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    
     const firebaseConfig = {
       apiKey: "AIzaSyA6hipcEEJ_e5eLa3Gg346B5un8oO2UfiQ",
       authDomain: "schatgravers-e72e4.firebaseapp.com",
@@ -725,7 +667,6 @@
       e.preventDefault();
       const name = document.getElementById('firstName').value;
       const team = document.getElementById('teamSelect').value;
-
       if(name && team) {
         push(playersRef, { name, team, timestamp: Date.now() });
         alert(`Welkom ${name}! Je bent ingedeeld bij Team ${team.toUpperCase()}.`);
@@ -746,6 +687,11 @@
         });
       }
     });
+
+    // Expose Firebase reset functie aan het globale venster
+    window.clearFirebasePlayers = function() {
+      remove(playersRef);
+    };
   </script>
 
   <!-- Game Logic & Quiz Engine -->
@@ -845,7 +791,7 @@
     ];
 
     // Teams scores (stappen van 0 tot 15)
-    const teamScores = {
+    let teamScores = {
       rood: 0,
       blauw: 0,
       groen: 0,
@@ -853,6 +799,17 @@
     };
 
     let currentQuestionIdx = 0;
+
+    // Standaard HTML-structuur voor het herstellen van Koningskaarten
+    const defaultKingUnlocks = {
+      hizkia: '<span>🎉 Goed! Sleep de kroon naar de kaart op <strong>A9</strong>:</span><img src="hizkia.png" id="crown-hizkia" class="draggable-crown" draggable="true" data-king="hizkia" alt="Hizkia">',
+      manasse: '<span>🎉 Goed! Sleep de kroon naar de kaart op <strong>C8</strong>:</span><img src="manasse.png" id="crown-manasse" class="draggable-crown" draggable="true" data-king="manasse" alt="Manasse">',
+      asa: '<span>🎉 Goed! Sleep de kroon naar de kaart op <strong>C1</strong>:</span><img src="asa.png" id="crown-asa" class="draggable-crown" draggable="true" data-king="asa" alt="Asa">',
+      joas: '<span>🎉 Goed! Sleep de kroon naar de kaart op <strong>D6</strong>:</span><img src="joas.png" id="crown-joas" class="draggable-crown" draggable="true" data-king="joas" alt="Joas">',
+      jotam: '<span>🎉 Goed! Sleep de kroon naar de kaart op <strong>D4</strong>:</span><img src="jotam.png" id="crown-jotam" class="draggable-crown" draggable="true" data-king="jotam" alt="Jotam">',
+      salomo: '<span>🎉 Goed! Sleep de kroon naar de kaart op <strong>C5</strong>:</span><img src="salomo.png" id="crown-salomo" class="draggable-crown" draggable="true" data-king="salomo" alt="Salomo">',
+      josia: '<span>🎉 Goed! Sleep de kroon naar de kaart op <strong>G4</strong>:</span><img src="josia.png" id="crown-josia" class="draggable-crown" draggable="true" data-king="josia" alt="Josia">'
+    };
 
     function showScreen(screenNum) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -868,14 +825,12 @@
         document.getElementById('quizRewardBox').style.display = 'block';
         return;
       }
-
       const item = quizQuestions[currentQuestionIdx];
       document.getElementById('quizStepBadge').textContent = `Vraag ${currentQuestionIdx + 1} /${quizQuestions.length}`;
       document.getElementById('quizQuestionText').textContent = item.q;
-
+      
       const optsContainer = document.getElementById('quizOptions');
       optsContainer.innerHTML = '';
-
       item.options.forEach((optText, idx) => {
         const btn = document.createElement('button');
         btn.className = 'btn-quiz-option';
@@ -1051,7 +1006,6 @@
       
       cell.classList.add('unlocked');
       const data = gridData[coord];
-
       cell.innerHTML = `
         <span class="cell-coord">${coord}</span>
         <span style="font-size:14px;">⭐</span>
@@ -1068,32 +1022,18 @@
       unlockedCoords.add(coord);
       const cell = document.getElementById(`cell-${coord}`);
       cell.classList.add('unlocked');
-
       const data = gridData[coord];
-
       cell.innerHTML = `
         <span class="cell-coord">${coord}</span>
         <span style="font-size:16px;">👑</span>
         <span class="cell-reversed-text">${data.reversed}</span>
         <span class="cell-decoded-text">${data.word}</span>
       `;
-
       crownEl.parentElement.innerHTML = `<span style="color:var(--success);font-weight:bold;">✅ Geplaatst op ${coord}!</span>`;
 
       const bar = document.getElementById('coordInfoBar');
       bar.innerHTML = `🎉 <strong>KONING GEPLAATST!</strong> Coördinaat <strong>${coord}</strong> ontgrendeld! Tekst: <code>${data.reversed}</code> ➔ Woord: <strong>"${data.word}"</strong>`;
     }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      renderQuizQuestion();
-      renderGrid();
-
-      document.querySelectorAll('.draggable-crown').forEach(crown => {
-        crown.addEventListener('dragstart', (e) => {
-          e.dataTransfer.setData('text/plain', e.target.id);
-        });
-      });
-    });
 
     function checkSolution() {
       const input = document.getElementById('finalSolutionInput').value.trim().toLowerCase();
@@ -1106,6 +1046,79 @@
         alert('Nog niet helemaal juist! Gebruik de gevonden woorden op de kaart en lees vers 19 uit Samuël.');
       }
     }
+
+    // --- RESET FUNCTIE VOOR HET VOLLEDIGE SPEL ---
+    function resetGame() {
+      const confirmed = confirm("Weet je zeker dat je het spel wilt resetten?\n\nAlle aangemelde teams, kwisvoortgang, koningen en antwoorden worden volledig gewist.");
+      if (!confirmed) return;
+
+      // 1. Firebase Spelers en Teams wissen
+      if (typeof window.clearFirebasePlayers === 'function') {
+        window.clearFirebasePlayers();
+      }
+
+      // 2. Formulieren & Invoervelden leegmaken
+      document.getElementById('loginForm').reset();
+      document.getElementById('finalSolutionInput').value = '';
+
+      // 3. Kwis en Koningsrace resetten
+      currentQuestionIdx = 0;
+      teamScores = { rood: 0, blauw: 0, groen: 0, geel: 0 };
+      updateTrackPositions();
+
+      document.getElementById('quizQuestionContainer').style.display = 'block';
+      document.getElementById('quizRewardBox').style.display = 'none';
+      document.getElementById('quizAlert').style.display = 'none';
+      renderQuizQuestion();
+
+      // 4. Koningen-vragen en kronen herstellen
+      Object.keys(defaultKingUnlocks).forEach(king => {
+        const card = document.getElementById(`card-${king}`);
+        if (card) card.classList.remove('unlocked-king');
+
+        const inputGroup = card ? card.querySelector('.king-input-group') : null;
+        if (inputGroup) {
+          inputGroup.style.display = 'flex';
+          const input = inputGroup.querySelector('input');
+          if (input) input.value = '';
+        }
+
+        const unlockZone = document.getElementById(`unlock-${king}`);
+        if (unlockZone) {
+          unlockZone.style.display = 'none';
+          unlockZone.innerHTML = defaultKingUnlocks[king];
+        }
+      });
+
+      // Bind dragstart events opnieuw op de herstelde kronen
+      document.querySelectorAll('.draggable-crown').forEach(crown => {
+        crown.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', e.target.id);
+        });
+      });
+
+      // 5. Coördinaten-raster leegmaken
+      unlockedCoords.clear();
+      renderGrid();
+      document.getElementById('coordInfoBar').innerHTML = 'Speel de Kwis op Scherm 2 en vul de koningen in op Scherm 4 om de kaart compleet te maken...';
+
+      // 6. Beloningsmelding verbergen en terug naar Scherm 1
+      document.getElementById('rewardMessage').style.display = 'none';
+      showScreen(1);
+
+      alert("Het spel is succesvol gereset!");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderQuizQuestion();
+      renderGrid();
+
+      document.querySelectorAll('.draggable-crown').forEach(crown => {
+        crown.addEventListener('dragstart', (e) => {
+          e.dataTransfer.setData('text/plain', e.target.id);
+        });
+      });
+    });
   </script>
 </body>
 </html>
